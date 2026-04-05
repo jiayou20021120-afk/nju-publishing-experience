@@ -1,0 +1,1331 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>南京大学出版专硕 · 上岸经验帖</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700;900&family=Noto+Sans+SC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+
+:root{--nju:#603F98;--nju-dk:#4A2D7A;--nju-lt:#8B6DB5;--nju-pale:#F3EFF8;--gold:#C9A84C;--gold-lt:#E8D5A0;--ink:#1E1A2E;--paper:#FAFAFE;--body:#3D3650;--muted:#8A8198;--card:#FFF;--red:#D4564E;--teal:#2A8B7A;--blue:#4A7FBA;--r:16px;--rs:10px}
+*{margin:0;padding:0;box-sizing:border-box}html{scroll-behavior:smooth}
+body{font-family:"Noto Sans SC",-apple-system,sans-serif;background:var(--paper);color:var(--body);line-height:1.85;font-size:16px;overflow-x:hidden}
+
+/* === SPLASH SCREEN === */
+.splash{position:fixed;inset:0;z-index:9999;background:linear-gradient(165deg,#2A1B4E,var(--nju));display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .8s,visibility .8s}
+.splash.hidden{opacity:0;visibility:hidden;pointer-events:none}
+.splash-title{font-family:"Noto Serif SC",serif;font-size:1.5rem;color:rgba(255,255,255,.7);letter-spacing:.3em;margin-bottom:2rem;opacity:0;animation:fadeUp .8s .2s both}
+.splash-btn{background:none;border:2px solid var(--gold);color:var(--gold);font-family:"Noto Serif SC",serif;font-size:1.1rem;padding:.8rem 2.5rem;border-radius:50px;cursor:pointer;letter-spacing:.15em;transition:all .3s;opacity:0;animation:fadeUp .8s .6s both;position:relative;overflow:hidden}
+.splash-btn:hover{background:var(--gold);color:#1a1a2e;transform:scale(1.05)}
+.splash-btn::after{content:"";position:absolute;inset:-2px;border:1px solid rgba(201,168,76,.3);border-radius:52px;animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* === PROGRESS BAR === */
+.progress-wrap{position:fixed;top:0;left:0;width:100%;height:3px;z-index:200;background:rgba(96,63,152,.1)}
+.progress-bar{height:100%;width:0%;background:linear-gradient(90deg,var(--nju),var(--gold));transition:width .1s;border-radius:0 2px 2px 0}
+.progress-label{position:fixed;top:8px;right:16px;z-index:201;font-size:.7rem;color:var(--muted);letter-spacing:.1em;opacity:0;transition:opacity .3s}
+.progress-label.show{opacity:1}
+
+/* === HERO === */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;background:linear-gradient(165deg,#2A1B4E 0%,var(--nju-dk) 35%,var(--nju) 70%,#7B52B5 100%);overflow:hidden;padding:2rem}
+#heroCanvas{position:absolute;inset:0;pointer-events:none}
+.hero-glow{position:absolute;width:400px;height:400px;border-radius:50%;background:radial-gradient(circle,rgba(201,168,76,.15),transparent 70%);pointer-events:none;transition:transform .1s;transform:translate(-50%,-50%)}
+
+.hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:50px;padding:.5rem 1.4rem;margin-bottom:2rem;backdrop-filter:blur(10px);opacity:0}
+.hero-badge span{font-size:.82rem;color:rgba(255,255,255,.7);letter-spacing:.2em;font-weight:300}
+.hero-badge .dot{width:6px;height:6px;background:var(--gold);border-radius:50%;display:inline-block}
+
+.hero h1{font-family:"Noto Serif SC",serif;font-weight:900;font-size:clamp(2.4rem,6vw,4.5rem);color:#fff;text-align:center;letter-spacing:.08em;margin-bottom:1rem;line-height:1.3;min-height:3.5em}
+.hero h1 .hl{background:linear-gradient(135deg,var(--gold),var(--gold-lt));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero h1 .cursor{display:inline-block;width:3px;height:1em;background:var(--gold);margin-left:4px;animation:blink 1s step-end infinite;vertical-align:text-bottom}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+.hero-sub{font-size:clamp(.95rem,1.8vw,1.15rem);color:rgba(255,255,255,.55);letter-spacing:.25em;text-align:center;margin-bottom:3.5rem;font-weight:300;opacity:0;transition:opacity .8s}
+
+.hero-scores{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;max-width:560px;width:100%;opacity:0;transition:opacity .8s}
+.hero-score{text-align:center;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);border-radius:var(--rs);padding:1.2rem .5rem;backdrop-filter:blur(10px);cursor:pointer;transition:transform .3s,background .3s;position:relative;overflow:hidden}
+.hero-score:hover{transform:translateY(-4px);background:rgba(255,255,255,.1)}
+.hero-score.clicked{animation:scoreClick .4s}
+@keyframes scoreClick{0%{transform:scale(1)}50%{transform:scale(1.15)}100%{transform:scale(1)}}
+.hero-score .num{font-family:"Noto Serif SC",serif;font-size:2rem;font-weight:700;color:var(--gold);display:block;line-height:1.2}
+.hero-score .label{font-size:.72rem;color:rgba(255,255,255,.45);letter-spacing:.1em;margin-top:.3rem;display:block}
+
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);opacity:0;transition:opacity .8s}
+.hero-scroll .arrow{width:20px;height:20px;border-right:1.5px solid rgba(255,255,255,.3);border-bottom:1.5px solid rgba(255,255,255,.3);transform:rotate(45deg);animation:scrollBounce 2s ease-in-out infinite}
+@keyframes scrollBounce{0%,100%{opacity:.3;transform:rotate(45deg) translateY(0)}50%{opacity:.8;transform:rotate(45deg) translateY(6px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(25px)}to{opacity:1;transform:translateY(0)}}
+
+/* === PARTICLE BURST === */
+.particle{position:absolute;border-radius:50%;pointer-events:none;animation:particleFly .8s ease-out forwards}
+@keyframes particleFly{0%{opacity:1;transform:translate(0,0) scale(1)}100%{opacity:0;transform:translate(var(--tx),var(--ty)) scale(0)}}
+
+/* === NAV === */
+.nav-bar{position:sticky;top:3px;z-index:100;background:rgba(250,250,254,.88);backdrop-filter:blur(24px) saturate(180%);border-bottom:1px solid rgba(96,63,152,.08);transition:box-shadow .3s}
+.nav-bar.scrolled{box-shadow:0 1px 20px rgba(96,63,152,.06)}
+.nav-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:center;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-bar a{font-size:.85rem;color:var(--muted);text-decoration:none;letter-spacing:.08em;padding:1rem 1.2rem;position:relative;transition:color .3s;white-space:nowrap}
+.nav-bar a::after{content:"";position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:0;height:2px;background:var(--nju);transition:width .3s;border-radius:2px}
+.nav-bar a:hover{color:var(--nju)}
+.nav-bar a:hover::after,.nav-bar a.active::after{width:20px}
+.nav-bar a.active{color:var(--nju);font-weight:500}
+
+/* === CONTENT === */
+.content-wrap{max-width:780px;margin:0 auto;padding:0 2rem}
+
+/* === SECTION with LEVEL UNLOCK === */
+.section{padding:4.5rem 0 2rem;opacity:0;transform:translateY(30px);transition:all .7s cubic-bezier(.22,1,.36,1)}
+.section.visible{opacity:1;transform:translateY(0)}
+.level-badge{display:inline-flex;align-items:center;gap:.6rem;margin-bottom:1.2rem;padding:.4rem 1rem .4rem .6rem;background:rgba(96,63,152,.06);border:1px solid rgba(96,63,152,.1);border-radius:50px;transition:all .5s}
+.level-badge .lock{font-size:1rem;transition:transform .5s}
+.section.visible .level-badge .lock{transform:rotate(15deg)}
+.level-badge .level-text{font-family:"Noto Serif SC",serif;font-size:.72rem;font-weight:700;color:var(--nju-lt);letter-spacing:.2em}
+.section-title{font-family:"Noto Serif SC",serif;font-weight:700;font-size:clamp(1.5rem,3.2vw,2.1rem);color:var(--ink);line-height:1.45;margin-bottom:.4rem}
+.section-desc{font-size:.95rem;color:var(--muted);margin-top:.3rem;line-height:1.8;margin-bottom:2rem}
+
+/* === CARDS with TILT === */
+.card{background:var(--card);border-radius:var(--r);padding:2rem 2.2rem;margin-bottom:1.5rem;box-shadow:0 2px 12px rgba(96,63,152,.06);border:1px solid rgba(96,63,152,.04);transition:transform .3s,box-shadow .3s;transform-style:preserve-3d;perspective:800px}
+.card:hover{box-shadow:0 8px 30px rgba(96,63,152,.1)}
+.card-label{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;font-weight:500;letter-spacing:.08em;padding:.3rem .85rem;border-radius:50px;margin-bottom:1rem}
+.card-label.purple{background:var(--nju-pale);color:var(--nju)}
+.card-label.red{background:#FEF0EF;color:var(--red)}
+.card-label.teal{background:#EDF8F6;color:var(--teal)}
+.card-label.blue{background:#EEF3FA;color:var(--blue)}
+.card-label.gold{background:#FDF8ED;color:#9A7B2E}
+.card h3{font-family:"Noto Serif SC",serif;font-weight:600;font-size:1.15rem;color:var(--ink);margin-bottom:.8rem;line-height:1.5}
+.card p{font-size:.93rem;line-height:1.95;text-indent:2em}
+.card p+p{margin-top:.8rem}
+.card ul{list-style:none;padding:0;margin-top:.8rem}
+.card li{font-size:.93rem;line-height:1.95;padding-left:1.6rem;position:relative;margin-bottom:.5rem}
+.card li::before{content:"";position:absolute;left:.2rem;top:.7rem;width:6px;height:6px;border-radius:50%;background:var(--nju-lt);opacity:.5}
+.card strong{color:var(--ink);font-weight:600}
+
+/* === FLIP CARDS === */
+.flip-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin:1.5rem 0}
+.flip-card{height:200px;perspective:600px;cursor:pointer}
+.flip-inner{position:relative;width:100%;height:100%;transition:transform .6s;transform-style:preserve-3d}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{position:absolute;inset:0;border-radius:var(--rs);backface-visibility:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.2rem;text-align:center}
+.flip-front{background:linear-gradient(135deg,var(--nju),var(--nju-dk));color:#fff;border:2px solid rgba(255,255,255,.1)}
+.flip-front .flip-icon{font-size:2rem;margin-bottom:.5rem}
+.flip-front .flip-name{font-family:"Noto Serif SC",serif;font-size:1rem;font-weight:600}
+.flip-front .flip-hint{font-size:.7rem;color:rgba(255,255,255,.4);margin-top:.5rem}
+.flip-back{background:var(--card);border:2px solid rgba(96,63,152,.1);transform:rotateY(180deg);color:var(--body)}
+.flip-back p{font-size:.82rem;line-height:1.7}
+.flip-back .flip-rating{margin-top:.5rem;color:var(--gold);font-size:.9rem;letter-spacing:2px}
+
+/* === QUIZ === */
+.quiz-box{background:linear-gradient(135deg,rgba(96,63,152,.04),rgba(96,63,152,.02));border:1px dashed rgba(96,63,152,.2);border-radius:var(--r);padding:1.8rem 2rem;margin:1.5rem 0;text-align:center}
+.quiz-box h4{font-family:"Noto Serif SC",serif;font-size:1rem;color:var(--ink);margin-bottom:1rem}
+.quiz-options{display:flex;flex-wrap:wrap;gap:.8rem;justify-content:center}
+.quiz-opt{padding:.6rem 1.2rem;border:1px solid rgba(96,63,152,.15);border-radius:50px;font-size:.85rem;cursor:pointer;transition:all .3s;background:var(--card)}
+.quiz-opt:hover{border-color:var(--nju);color:var(--nju)}
+.quiz-opt.correct{background:#E8F5E9;border-color:#4CAF50;color:#2E7D32}
+.quiz-opt.wrong{background:#FFEBEE;border-color:#F44336;color:#C62828}
+.quiz-result{margin-top:1rem;font-size:.9rem;font-weight:500;opacity:0;transition:opacity .3s}
+.quiz-result.show{opacity:1}
+
+/* === CHAT (QiQi Section) === */
+.chat-section{background:linear-gradient(135deg,#FFF9E6,#FFF5D6);border:2px solid rgba(201,168,76,.3);border-radius:var(--r);padding:0;margin-bottom:1.5rem;overflow:hidden;position:relative}
+.chat-section::before{content:"";position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(201,168,76,.15),transparent 70%);border-radius:50%}
+.chat-header{background:linear-gradient(135deg,var(--nju),var(--nju-dk));padding:1.2rem 1.8rem;display:flex;align-items:center;gap:1rem}
+.chat-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-lt));display:flex;align-items:center;justify-content:center;font-size:1.2rem;border:2px solid rgba(255,255,255,.2)}
+.chat-header-info{flex:1}
+.chat-header-info .name{color:#fff;font-family:"Noto Serif SC",serif;font-weight:600;font-size:1rem}
+.chat-header-info .tag{color:var(--gold-lt);font-size:.72rem;letter-spacing:.1em}
+.chat-stars{display:flex;gap:2px}
+.chat-stars .star{color:rgba(255,255,255,.3);font-size:1.1rem;transition:color .3s}
+.chat-stars .star.lit{color:var(--gold)}
+
+.chat-body{padding:1.5rem 1.8rem;display:flex;flex-direction:column;gap:1rem}
+.chat-msg{display:flex;gap:.8rem;max-width:85%;opacity:0;transform:translateY(10px);transition:all .4s}
+.chat-msg.show{opacity:1;transform:translateY(0)}
+.chat-msg.me{align-self:flex-end;flex-direction:row-reverse}
+.chat-bubble{padding:.8rem 1.2rem;border-radius:12px;font-size:.88rem;line-height:1.7;position:relative}
+.chat-msg.them .chat-bubble{background:#fff;border:1px solid rgba(96,63,152,.08);border-bottom-left-radius:4px;color:var(--body)}
+.chat-msg.me .chat-bubble{background:var(--nju);color:#fff;border-bottom-right-radius:4px}
+.chat-msg-avatar{width:32px;height:32px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:.8rem}
+.chat-msg.me .chat-msg-avatar{background:var(--nju-pale);color:var(--nju)}
+.chat-msg.them .chat-msg-avatar{background:linear-gradient(135deg,var(--gold),var(--gold-lt));color:#fff}
+
+.chat-footer{padding:1rem 1.8rem;border-top:1px solid rgba(201,168,76,.15);display:flex;align-items:center;gap:.8rem;font-size:.8rem;color:var(--muted)}
+.chat-footer .recommend{font-family:"Noto Serif SC",serif;font-weight:600;color:var(--nju);font-size:.85rem}
+
+/* === MOOD CURVE === */
+.mood-wrap{background:var(--card);border-radius:var(--r);padding:2rem;margin-bottom:1.5rem;box-shadow:0 2px 12px rgba(96,63,152,.06);border:1px solid rgba(96,63,152,.04)}
+.mood-wrap h3{font-family:"Noto Serif SC",serif;font-weight:600;font-size:1.05rem;color:var(--ink);margin-bottom:1rem;text-align:center}
+.mood-svg{width:100%;height:180px}
+.mood-dot{cursor:pointer;transition:r .2s}
+.mood-dot:hover{r:8}
+.mood-tooltip{position:absolute;background:var(--ink);color:#fff;padding:.4rem .8rem;border-radius:6px;font-size:.75rem;pointer-events:none;opacity:0;transition:opacity .2s;white-space:nowrap;z-index:10}
+
+/* === TIMELINE === */
+.timeline{position:relative;padding-left:2rem;margin:1.2rem 0 0}
+.timeline::before{content:"";position:absolute;left:3px;top:8px;bottom:8px;width:2px;background:linear-gradient(to bottom,var(--nju-lt),var(--nju-pale));border-radius:2px}
+.tl-item{position:relative;margin-bottom:1.5rem;padding-left:.8rem}
+.tl-item:last-child{margin-bottom:0}
+.tl-item::before{content:"";position:absolute;left:-2rem;top:.6rem;width:8px;height:8px;border-radius:50%;background:var(--nju);box-shadow:0 0 0 3px var(--nju-pale)}
+.tl-item .tl-title{font-family:"Noto Serif SC",serif;font-weight:600;font-size:.98rem;color:var(--ink);margin-bottom:.3rem}
+.tl-item .tl-text{font-size:.9rem;line-height:1.9}
+
+/* === AI CARD === */
+.ai-card{background:linear-gradient(135deg,#2A1B4E,var(--nju));border-radius:var(--r);padding:2.2rem 2.5rem;margin-bottom:1.5rem;position:relative;overflow:hidden;color:#fff}
+.ai-card::before{content:"";position:absolute;top:-40%;right:-20%;width:300px;height:300px;background:radial-gradient(circle,rgba(201,168,76,.15),transparent 70%);border-radius:50%}
+.ai-card .card-label{background:rgba(255,255,255,.12);color:var(--gold-lt);border:1px solid rgba(255,255,255,.1)}
+.ai-card h3{color:#fff;font-family:"Noto Serif SC",serif;font-weight:600;font-size:1.15rem;margin-bottom:.8rem;position:relative}
+.ai-card p{color:rgba(255,255,255,.85);font-size:.93rem;line-height:1.95;text-indent:2em;position:relative}
+.ai-card ul{list-style:none;padding:0;margin-top:1rem;position:relative}
+.ai-card li{font-size:.9rem;line-height:1.9;color:rgba(255,255,255,.8);padding-left:1.6rem;position:relative;margin-bottom:.6rem}
+.ai-card li::before{content:"";position:absolute;left:.2rem;top:.65rem;width:6px;height:6px;border-radius:50%;background:var(--gold)}
+.ai-typewriter .ai-line{opacity:0;transform:translateX(-10px);transition:all .4s}
+.ai-typewriter .ai-line.typed{opacity:1;transform:translateX(0)}
+.ai-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:1.2rem;position:relative}
+.ai-step{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);border-radius:var(--rs);padding:1.2rem 1rem;text-align:center}
+.ai-step .step-num{font-family:"Noto Serif SC",serif;font-size:1.5rem;font-weight:700;color:var(--gold);display:block;margin-bottom:.3rem}
+.ai-step .step-title{font-size:.82rem;font-weight:500;color:#fff;display:block;margin-bottom:.2rem}
+.ai-step .step-desc{font-size:.72rem;color:rgba(255,255,255,.5);line-height:1.5}
+
+/* === TWO COL === */
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;margin-bottom:1.5rem}
+.two-col .card{margin-bottom:0}
+
+/* === SCORE === */
+.score-display{display:inline-flex;align-items:baseline;gap:.5rem;margin-bottom:.8rem}
+.score-display .big-num{font-family:"Noto Serif SC",serif;font-size:3rem;font-weight:700;color:var(--nju);line-height:1}
+.score-display .unit{font-size:.85rem;color:var(--muted)}
+
+/* === QUOTE === */
+.quote-box{background:linear-gradient(135deg,var(--nju-pale),rgba(234,227,242,.3));border-left:3px solid var(--nju-lt);border-radius:0 var(--rs) var(--rs) 0;padding:1.5rem 2rem;margin:1.8rem 0}
+.quote-box p{font-family:"Noto Serif SC",serif;font-size:.98rem;color:var(--nju-dk);line-height:2;text-indent:2em}
+
+/* === CTA === */
+.cta-section{text-align:center;padding:5rem 2rem;background:linear-gradient(165deg,#2A1B4E,var(--nju) 60%,#7B52B5);position:relative;overflow:hidden}
+#ctaCanvas{position:absolute;inset:0;pointer-events:none}
+.cta-section h2{font-family:"Noto Serif SC",serif;font-weight:700;font-size:clamp(1.4rem,3.5vw,2rem);color:#fff;margin-bottom:1.2rem;position:relative;letter-spacing:.05em}
+.cta-section p{font-size:.95rem;color:rgba(255,255,255,.6);position:relative;line-height:2;max-width:500px;margin:0 auto;text-indent:2em}
+
+/* === ACHIEVEMENT SYSTEM === */
+.achievement-panel{position:fixed;right:20px;bottom:20px;z-index:150;display:flex;flex-direction:column;gap:.5rem;align-items:flex-end}
+.achievement{display:flex;align-items:center;gap:.6rem;background:var(--card);border:1px solid rgba(96,63,152,.1);border-radius:50px;padding:.5rem 1rem .5rem .6rem;box-shadow:0 4px 20px rgba(96,63,152,.12);transform:translateX(120%);transition:transform .5s cubic-bezier(.34,1.56,.64,1);font-size:.78rem;color:var(--body)}
+.achievement.show{transform:translateX(0)}
+.achievement .ach-icon{width:28px;height:28px;border-radius:50%;background:var(--nju-pale);display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+
+/* === FIREWORKS === */
+#fireworksCanvas{position:fixed;inset:0;pointer-events:none;z-index:9998;display:none}
+
+/* === FOOTER === */
+footer{text-align:center;padding:2rem;font-size:.75rem;color:var(--muted);letter-spacing:.08em;background:#F7F5FA;border-top:1px solid rgba(96,63,152,.04)}
+footer span{cursor:pointer;transition:color .3s}
+footer span:hover{color:var(--nju)}
+
+/* === RESPONSIVE === */
+/* === MOBILE RESPONSIVE === */
+@media(max-width:700px){
+  .hero-scores{grid-template-columns:repeat(2,1fr);max-width:300px}
+  .flip-grid,.two-col,.ai-steps{grid-template-columns:1fr}
+  .card{padding:1.2rem 1.4rem}
+  .content-wrap{padding:0 1rem}
+  .section{padding:2.5rem 0 1.2rem}
+  .section-title{font-size:1.3rem}
+  .nav-bar a{padding:.7rem .6rem;font-size:.75rem;letter-spacing:.03em}
+  .chat-msg{max-width:95%}
+  .achievement-panel{right:8px;bottom:8px}
+  .achievement{font-size:.68rem;padding:.35rem .6rem .35rem .4rem}
+  .hero h1{font-size:1.8rem;min-height:auto}
+  .hero-sub{font-size:.85rem;letter-spacing:.1em;margin-bottom:2rem}
+  .hero-badge span{font-size:.72rem;letter-spacing:.1em}
+  .hero-score .num{font-size:1.5rem}
+  .hero-score{padding:.8rem .3rem}
+  .score-display .big-num{font-size:2.2rem}
+  .card h3{font-size:1rem}
+  .card p,.card li{font-size:.88rem}
+  .card li{padding-left:1.3rem}
+  .splash-title{font-size:1.2rem}
+  .splash-btn{font-size:.95rem;padding:.7rem 2rem}
+  /* Metro on mobile */
+  .metro-canvas{height:380px}
+  .metro-wrap{padding:1rem}
+  .metro-wrap h3{font-size:.95rem}
+  .metro-hint{font-size:.72rem}
+  .metro-phase{font-size:.6rem}
+  .metro-st .st-label{font-size:.6rem}
+  .metro-dot{width:12px;height:12px;border-width:2px}
+  .metro-card{padding:1.5rem;max-width:90vw}
+  .metro-card-month{font-size:1rem}
+  .metro-card-body{font-size:.85rem}
+  /*番茄数据格子 */
+  .card [style*="grid-template-columns: repeat(2"]{gap:.6rem}
+  /* AI steps */
+  .ai-step{padding:.8rem .6rem}
+  .ai-step .step-num{font-size:1.2rem}
+  /* Images */
+  .img-card img{max-height:300px}
+  .img-card.half img{max-height:220px}
+  .img-caption{font-size:.78rem;padding:.6rem 1rem}
+  /* Usage guide pills */
+  .metro-wrap [style*="display:flex"][style*="flex-wrap"]{gap:.4rem}
+  .metro-wrap [style*="border-radius:50px"]{font-size:.65rem;padding:.25rem .6rem}
+  /* Progress label */
+  .progress-label{font-size:.6rem;right:10px}
+  /* Flip cards */
+  .flip-card{height:170px}
+  .flip-front .flip-icon{font-size:1.5rem}
+  .flip-front .flip-name{font-size:.88rem}
+  .flip-back p{font-size:.78rem}
+  /* Footer */
+  footer{font-size:.7rem}
+}
+
+@media(max-width:420px){
+  .hero{padding:1.5rem 1rem}
+  .hero h1{font-size:1.5rem;letter-spacing:.03em}
+  .hero-sub{font-size:.78rem}
+  .content-wrap{padding:0 .8rem}
+  .card{padding:1rem 1.2rem;border-radius:12px}
+  .nav-inner{justify-content:flex-start}
+  .section-title{font-size:1.15rem}
+}
+
+/* Touch-friendly: larger tap targets on mobile */
+@media(hover:none){
+  .metro-st{padding:8px}
+  .metro-dot{width:16px;height:16px}
+  .metro-interchange{width:26px;height:26px;font-size:.7rem}
+  .flip-card{-webkit-tap-highlight-color:transparent}
+  .quiz-opt{padding:.8rem 1.4rem;font-size:.9rem}
+}
+
+
+
+/* === IMAGE CARDS === */
+.img-card{border-radius:var(--r);overflow:hidden;margin-bottom:1.5rem;box-shadow:0 2px 16px rgba(96,63,152,.08);border:1px solid rgba(96,63,152,.04);background:var(--card)}
+.img-card img{width:100%;display:block;max-height:500px;object-fit:cover}
+.img-card.half{margin-bottom:0}
+.img-card.half img{max-height:350px}
+.img-caption{padding:.8rem 1.2rem;font-size:.82rem;color:var(--muted);line-height:1.6;border-top:1px solid rgba(96,63,152,.04)}
+.img-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.5rem}
+@media(max-width:700px){.img-row{grid-template-columns:1fr}}
+
+
+/* === METRO MAP === */
+.metro-wrap{background:var(--card);border-radius:var(--r);padding:1.5rem 1.5rem 1rem;margin-bottom:1.5rem;box-shadow:0 2px 12px rgba(96,63,152,.06);border:1px solid rgba(96,63,152,.04);overflow:hidden}
+.metro-wrap h3{font-family:"Noto Serif SC",serif;font-weight:600;font-size:1.05rem;color:var(--ink);margin-bottom:.3rem;text-align:center}
+.metro-wrap .metro-hint{font-size:.78rem;color:var(--muted);text-align:center;margin-bottom:1rem}
+.metro-scroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;scrollbar-width:thin;scrollbar-color:rgba(96,63,152,.15) transparent;padding-bottom:.5rem;cursor:grab}
+.metro-scroll:active{cursor:grabbing}
+.metro-scroll::-webkit-scrollbar{height:4px}
+.metro-scroll::-webkit-scrollbar-thumb{background:rgba(96,63,152,.15);border-radius:2px}
+.metro-canvas{position:relative;width:1400px;height:420px;margin:0 auto}
+
+/* Lines */
+.metro-line{position:absolute;height:3px;border-radius:2px;transition:opacity .3s}
+.metro-canvas:hover .metro-line{opacity:.3}
+.metro-canvas:hover .metro-line:hover{opacity:1}
+.metro-line.l-pro{background:#603F98;top:80px}
+.metro-line.l-eng{background:#4A7FBA;top:170px}
+.metro-line.l-pol{background:#D4564E;top:260px}
+.metro-line.l-qq{background:#C9A84C;top:350px}
+
+/* Stations */
+.metro-st{position:absolute;transform:translateX(-50%);cursor:pointer;z-index:2}
+.metro-dot{width:14px;height:14px;border-radius:50%;border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15);margin:0 auto;transition:transform .2s,box-shadow .2s}
+.metro-st:hover .metro-dot{transform:scale(1.4);box-shadow:0 2px 8px rgba(0,0,0,.2)}
+.metro-st .st-label{font-size:.68rem;color:var(--muted);text-align:center;margin-top:4px;white-space:nowrap;font-weight:500;transition:color .2s}
+.metro-st:hover .st-label{color:var(--ink)}
+
+/* Tooltip */
+.metro-tip{display:none}
+
+/* Metro overlay card */
+.metro-overlay{position:fixed;inset:0;z-index:9000;display:none;align-items:center;justify-content:center;background:rgba(30,26,46,.45);backdrop-filter:blur(6px);animation:mOverIn .25s}
+.metro-overlay.show{display:flex}
+@keyframes mOverIn{from{opacity:0}to{opacity:1}}
+.metro-card{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border:1px solid rgba(96,63,152,.1);border-radius:20px;padding:2rem 2.2rem;max-width:360px;width:90%;box-shadow:0 20px 60px rgba(96,63,152,.18);position:relative;animation:mCardIn .3s cubic-bezier(.34,1.56,.64,1)}
+@keyframes mCardIn{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
+.metro-card-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:1.2rem;color:var(--muted);cursor:pointer;transition:color .2s}
+.metro-card-close:hover{color:var(--ink)}
+.metro-card-line{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:.5rem;vertical-align:middle}
+.metro-card-month{font-family:"Noto Serif SC",serif;font-size:1.1rem;font-weight:600;color:var(--ink);margin-bottom:.8rem}
+.metro-card-body{font-size:.9rem;line-height:1.9;color:#3D3650}
+.metro-card-body strong{color:#4A2D7A}
+
+/* Legend */
+.metro-legend{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;margin-top:.8rem;padding-top:.8rem;border-top:1px solid rgba(96,63,152,.06)}
+.metro-legend-item{display:flex;align-items:center;gap:.4rem;font-size:.72rem;color:var(--muted)}
+.metro-legend-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+
+/* Phase labels */
+.metro-phase{position:absolute;top:0;font-family:"Noto Serif SC",serif;font-size:.7rem;font-weight:600;letter-spacing:.1em;color:var(--muted);text-align:center;border-bottom:1px dashed rgba(96,63,152,.1);padding-bottom:4px}
+
+/* Interchange */
+.metro-interchange{position:absolute;width:22px;height:22px;border-radius:50%;background:#fff;border:2px solid var(--ink);display:flex;align-items:center;justify-content:center;font-size:.6rem;z-index:3;transform:translate(-50%,-50%);cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,.1);transition:transform .2s}
+.metro-interchange:hover{transform:translate(-50%,-50%) scale(1.3)}
+
+
+.card-label,.card h3,.img-caption,.score-display,.metro-card-body p,.tl-item .tl-text,.flip-back p{text-indent:0!important}
+</style>
+</head>
+<body>
+<!-- SPLASH -->
+<div class="splash" id="splash">
+  <div class="splash-title">南京大学出版专硕</div>
+  <button class="splash-btn" onclick="startJourney()">开启考研之旅 &#x2192;</button>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+<div class="progress-label" id="progressLabel">通关进度 0%</div>
+
+<!-- FIREWORKS -->
+<canvas id="fireworksCanvas"></canvas>
+
+<!-- HERO -->
+<section class="hero" id="heroSection">
+  <canvas id="heroCanvas"></canvas>
+  <div class="hero-glow" id="heroGlow"></div>
+  <div class="hero-badge" id="heroBadge"><span class="dot"></span><span>南京大学 · 出版专硕</span></div>
+  <h1 id="heroTitle"></h1>
+  <p class="hero-sub" id="heroSub">2815小时，5遍专业课，一个普通人的考研全纪录</p>
+  <div class="hero-scores" id="heroScores">
+    <div class="hero-score" data-target="335" onclick="burstParticles(this)"><span class="num">0</span><span class="label">出版综合素质</span></div>
+    <div class="hero-score" data-target="441" onclick="burstParticles(this)"><span class="num">0</span><span class="label">出版专业基础</span></div>
+    <div class="hero-score" data-target="87" onclick="burstParticles(this)"><span class="num">0</span><span class="label">英语二</span></div>
+    <div class="hero-score" data-target="70" data-suffix="+" onclick="burstParticles(this)"><span class="num">0</span><span class="label">政治</span></div>
+  </div>
+  <div class="hero-scroll" id="heroScrollHint"><div class="arrow"></div></div>
+</section>
+
+<!-- NAV -->
+<nav class="nav-bar" id="navbar">
+  <div class="nav-inner">
+    <a href="#intro">总览</a>
+    <a href="#zhuanye">专业课</a>
+    <a href="#s335">335 闯关</a>
+    <a href="#s441">441 闯关</a>
+    <a href="#english">英语</a>
+    <a href="#politics">政治</a>
+    <a href="#qiqi">柒柒学姐</a>
+    <a href="#tips">心得</a>
+    <a href="#tools">工具箱</a>
+    <a href="#final">寄语</a>
+  </div>
+</nav>
+
+<!-- ACHIEVEMENT PANEL -->
+<div class="achievement-panel" id="achPanel"></div>
+
+<div class="content-wrap">
+
+  <!-- LEVEL 1: 总览 -->
+  <section class="section" id="intro">
+    <div class="level-badge"><span class="lock">&#x1F513;</span><span class="level-text">LEVEL 1 · 总览</span></div>
+    <h2 class="section-title">先说说我是谁</h2>
+    <p class="section-desc">一个背书开着守护解放西、焦虑到跑医院、考场上吃了一块带纸巧克力的普通人。但最后居然考上了。</p>
+
+    <div class="card" style="border:2px solid rgba(96,63,152,.15);background:linear-gradient(135deg,#F8F5FC,#F3EFF8)">
+      <span class="card-label purple">&#x1F4D6; 我的考研起源</span>
+      <h3>想考研的心，大一就有了</h3>
+      <p>其实考研这个念头大一就有了，但真正确定要考出版，是因为我转专业转到了出版，而且是真的喜欢。大二的时候就已经决定了要考南大出版专硕。所以严格来说，我为这场考试准备了两年多——前期是心理准备和基础积累，真正全力冲刺是从大三三月开始的。</p>
+    </div>
+
+    <!-- 番茄数据 -->
+    <div class="card" style="border:2px solid rgba(201,168,76,.25);background:linear-gradient(135deg,#FFFDF5,#FFF9E8)">
+      <span class="card-label gold">&#x1F345; 番茄钟数据（不含复试）</span>
+      <h3>总计 2815 小时 29 分钟，日均 9 小时 30 分钟</h3>
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:.8rem;margin:1rem 0">
+        <div style="background:rgba(96,63,152,.06);border-radius:10px;padding:1rem;text-align:center">
+          <span style="font-family:'Noto Serif SC',serif;font-size:2rem;font-weight:700;color:#603F98;display:block">1714h</span>
+          <span style="font-size:.75rem;color:#8A8198">专业课（60.9%）</span>
+        </div>
+        <div style="background:rgba(74,127,186,.06);border-radius:10px;padding:1rem;text-align:center">
+          <span style="font-family:'Noto Serif SC',serif;font-size:2rem;font-weight:700;color:#4A7FBA;display:block">636h</span>
+          <span style="font-size:.75rem;color:#8A8198">英语二（22.6%）</span>
+        </div>
+        <div style="background:rgba(42,139,122,.06);border-radius:10px;padding:1rem;text-align:center">
+          <span style="font-family:'Noto Serif SC',serif;font-size:2rem;font-weight:700;color:#2A8B7A;display:block">395h</span>
+          <span style="font-size:.75rem;color:#8A8198">政治（14.0%）</span>
+        </div>
+        <div style="background:rgba(212,86,78,.06);border-radius:10px;padding:1rem;text-align:center">
+          <span style="font-family:'Noto Serif SC',serif;font-size:2rem;font-weight:700;color:#D4564E;display:block">14h</span>
+          <span style="font-size:.75rem;color:#8A8198">最长单日学习时长</span>
+        </div>
+      </div>
+      <p>这个数据不是我凑的，是番茄TODO实打实的记录。从三月到十二月，每一分钟都算数。最拼的时候一天学了14个小时，从早上七点坐到晚上十一点，中间除了吃饭几乎没有停过。<strong>但说实话，大多数时候是没有那么狠的，日均九个半小时才是常态。</strong>能坚持下来已经很不容易了。</p>
+    </div>
+
+    <!-- 番茄钟真实截图 -->
+    <div class="img-card">
+      <img src="img/番茄钟.jpg" alt="番茄TODO统计数据截图" style="max-height:600px;object-fit:contain;background:#F3EFF8">
+      <p class="img-caption">我的番茄TODO真实截图——2815小时29分钟，每一分钟都是实打实坐在桌前的时间。</p>
+    </div>
+
+    <!-- 校园彩虹照片 -->
+    <div class="img-card">
+      <img src="img/c80463f9d98b10afe272277dd0d4310a.jpg" alt="备考期间校园彩虹">
+      <p class="img-caption">备考那段日子拍的校园彩虹——风雨之后真的有光。</p>
+    </div>
+
+    <!-- MOOD CURVE -->
+    <div class="mood-wrap">
+      <h3>&#x1F4C8; 我的备考心情曲线（真实版）</h3>
+      <div style="position:relative">
+        <svg class="mood-svg" id="moodSvg" viewBox="0 0 700 160"></svg>
+        <div class="mood-tooltip" id="moodTip"></div>
+      </div>
+    </div>
+
+    <!-- 地铁线路图 -->
+    <div class="metro-wrap">
+      <h3>&#x1F687; 备考线路图</h3>
+      <p class="metro-hint">贯穿全程的，是听柒柒学姐的话。</p>
+      <div style="display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;margin-bottom:1rem">
+        <span style="display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;color:var(--muted);background:rgba(96,63,152,.04);padding:.3rem .8rem;border-radius:50px">&#x1F448;&#x1F449; 左右滑动查看全程</span>
+        <span style="display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;color:var(--muted);background:rgba(96,63,152,.04);padding:.3rem .8rem;border-radius:50px">&#x1F447; 点击站点查看任务详情</span>
+        <span style="display:inline-flex;align-items:center;gap:.3rem;font-size:.72rem;color:var(--muted);background:rgba(96,63,152,.04);padding:.3rem .8rem;border-radius:50px">&#x1F504; 换乘站 = 关键节点</span>
+      </div>
+      <div class="metro-scroll" id="metroScroll">
+        <div class="metro-canvas">
+
+          <!-- Phase labels -->
+          <div class="metro-phase" style="left:80px;width:240px">&#x1F331; 3-5月 打地基</div>
+          <div class="metro-phase" style="left:380px;width:240px">&#x1F525; 5-7月 暑假前动员</div>
+          <div class="metro-phase" style="left:700px;width:280px">&#x1F4AA; 7-9月 关键提升期</div>
+          <div class="metro-phase" style="left:1060px;width:280px">&#x1F680; 10-12月 冲刺</div>
+
+          <!-- Lines -->
+          <div class="metro-line l-pro" style="left:60px;width:1280px"></div>
+          <div class="metro-line l-eng" style="left:60px;width:1280px"></div>
+          <div class="metro-line l-pol" style="left:380px;width:960px"></div>
+          <div class="metro-line l-qq" style="left:60px;width:1280px"></div>
+
+          <!-- Stations -->
+
+          <div class="metro-st" style="left:100px;top:68px" onclick="showMetroCard('#603F98','3月','看书打基础','基础+实务多看几遍，不背，先理解和熟悉内容框架')">
+            <div class="metro-dot" style="background:#603F98"></div>
+            <div class="st-label">3月</div>
+          </div>
+          <div class="metro-st" style="left:260px;top:68px" onclick="showMetroCard('#603F98','5月','开始背诵','only背书上知识，先不想热点和论述，专注把书背进去')">
+            <div class="metro-dot" style="background:#603F98"></div>
+            <div class="st-label">5月</div>
+          </div>
+          <div class="metro-st" style="left:500px;top:68px" onclick="showMetroCard('#603F98','7月','第3遍+案例思维','背诵时想「哪里能结合案例」加深理解；开始错句/文言文/文常；每天做一道各校真题')">
+            <div class="metro-dot" style="background:#603F98"></div>
+            <div class="st-label">7月</div>
+          </div>
+          <div class="metro-st" style="left:760px;top:68px" onclick="showMetroCard('#603F98','9月','论述练习','每天写论述题发学姐批改，练连珠成线思维')">
+            <div class="metro-dot" style="background:#603F98"></div>
+            <div class="st-label">9月</div>
+          </div>
+          <div class="metro-st" style="left:1000px;top:68px" onclick="showMetroCard('#603F98','10月','第4遍：热点+全篇','热点+全篇背诵；文言文/错句/文常每天选两项进行')">
+            <div class="metro-dot" style="background:#603F98"></div>
+            <div class="st-label">10月</div>
+          </div>
+          <div class="metro-st" style="left:1180px;top:68px" onclick="showMetroCard('#603F98','11月','开窍了！','第5遍=学校重点+热点；论述突然写得有模有样了；这个月我第一次觉得「我可能真的能考上」')">
+            <div class="metro-dot" style="background:#603F98"></div>
+            <div class="st-label">11月</div>
+          </div>
+          <div class="metro-st" style="left:1300px;top:68px" onclick="showMetroCard('#603F98','12月','模考2-3次','每次模考后复盘；最后冲刺背诵；考场上拼尽全力写满')">
+            <div class="metro-dot" style="background:#603F98"></div>
+            <div class="st-label">12月</div>
+          </div>
+          <div class="metro-st" style="left:100px;top:158px" onclick="showMetroCard('#4A7FBA','3月','背单词+精刷','单词每天背，不停！阅读一刷用黄皮书（先搜小红书选对版本）')">
+            <div class="metro-dot" style="background:#4A7FBA"></div>
+            <div class="st-label">3月</div>
+          </div>
+          <div class="metro-st" style="left:380px;top:158px" onclick="showMetroCard('#4A7FBA','5-6月','阅读二刷','重点看错题，巩固做题方法，保持手感')">
+            <div class="metro-dot" style="background:#4A7FBA"></div>
+            <div class="st-label">5-6月</div>
+          </div>
+          <div class="metro-st" style="left:620px;top:158px" onclick="showMetroCard('#4A7FBA','7-8月','特殊题型+翻译','完型/新题型训练，以真题为主')">
+            <div class="metro-dot" style="background:#4A7FBA"></div>
+            <div class="st-label">7-8月</div>
+          </div>
+          <div class="metro-st" style="left:880px;top:158px" onclick="showMetroCard('#4A7FBA','9月中','作文模板','一定自己整理！江苏低分的据说都是背的大众模板。确保无语法错误')">
+            <div class="metro-dot" style="background:#4A7FBA"></div>
+            <div class="st-label">9月中</div>
+          </div>
+          <div class="metro-st" style="left:1180px;top:158px" onclick="showMetroCard('#4A7FBA','11-12月','保持手感','继续刷题+练作文，柴荣老师课跟到底')">
+            <div class="metro-dot" style="background:#4A7FBA"></div>
+            <div class="st-label">11-12月</div>
+          </div>
+          <div class="metro-st" style="left:500px;top:248px" onclick="showMetroCard('#D4564E','7月','看徐涛','说实话觉得没啥用，但不看心里慌慌的')">
+            <div class="metro-dot" style="background:#D4564E"></div>
+            <div class="st-label">7月</div>
+          </div>
+          <div class="metro-st" style="left:880px;top:248px" onclick="showMetroCard('#D4564E','9-10月','开始刷题','肖1000/腿姐/余峰，什么都刷')">
+            <div class="metro-dot" style="background:#D4564E"></div>
+            <div class="st-label">9-10月</div>
+          </div>
+          <div class="metro-st" style="left:1100px;top:248px" onclick="showMetroCard('#D4564E','11月','背诵冲刺','每天翻20面腿姐背诵手册；腿姐9张纸开始背，不求一字不差')">
+            <div class="metro-dot" style="background:#D4564E"></div>
+            <div class="st-label">11月</div>
+          </div>
+          <div class="metro-st" style="left:1300px;top:248px" onclick="showMetroCard('#D4564E','12月','肖4+敢胡诌','背肖4大题；敢往答案里加真材实料（我从春秋战国写到一带一路）')">
+            <div class="metro-dot" style="background:#D4564E"></div>
+            <div class="st-label">12月</div>
+          </div>
+          <div class="metro-st" style="left:100px;top:338px" onclick="showMetroCard('#C9A84C','3月','全程陪伴开始','制定学习计划，明确备考方向')">
+            <div class="metro-dot" style="background:#C9A84C"></div>
+            <div class="st-label">3月</div>
+          </div>
+          <div class="metro-st" style="left:500px;top:338px" onclick="showMetroCard('#C9A84C','每月','月度复盘','每月聊一次，分析问题+调整方向，不是「你要加油」的空话，是真干货')">
+            <div class="metro-dot" style="background:#C9A84C"></div>
+            <div class="st-label">每月</div>
+          </div>
+          <div class="metro-st" style="left:760px;top:338px" onclick="showMetroCard('#C9A84C','暑假','论述批改','写一篇改一篇，改到逻辑通顺为止')">
+            <div class="metro-dot" style="background:#C9A84C"></div>
+            <div class="st-label">暑假</div>
+          </div>
+          <div class="metro-st" style="left:1000px;top:338px" onclick="showMetroCard('#C9A84C','情绪低谷','被拉回来了','想放弃的时候，学姐一通电话把我拉回来的')">
+            <div class="metro-dot" style="background:#C9A84C"></div>
+            <div class="st-label">情绪低谷</div>
+          </div>
+          <div class="metro-st" style="left:1300px;top:338px" onclick="showMetroCard('#C9A84C','考前','最后冲刺','陪到考前最后一天，大半年的陪伴')">
+            <div class="metro-dot" style="background:#C9A84C"></div>
+            <div class="st-label">考前</div>
+          </div>
+
+          <!-- Interchange nodes -->
+          <div class="metro-interchange" style="left:320px;top:215px" onclick="showMetroCard('#1E1A2E','换乘站','暑假前回顾','回顾过去四个月的准备情况，制定暑假阶段的规划。暑假是最重要的阶段，提前规划好能让你少走很多弯路。')" title="暑假前回顾规划">&#x1F504;</div>
+          <div class="metro-interchange" style="left:1240px;top:170px" onclick="showMetroCard('#1E1A2E','换乘站','模考','安排2-3次模考，模考很耗精力但非常有必要。每次模考后一定要复盘，找出薄弱环节。')" title="模考">&#x1F4DD;</div>
+
+        </div>
+      </div>
+
+      <div class="metro-legend">
+        <div class="metro-legend-item"><div class="metro-legend-dot" style="background:#603F98"></div>专业课 1714h</div>
+        <div class="metro-legend-item"><div class="metro-legend-dot" style="background:#4A7FBA"></div>英语二 636h</div>
+        <div class="metro-legend-item"><div class="metro-legend-dot" style="background:#D4564E"></div>政治 395h</div>
+        <div class="metro-legend-item"><div class="metro-legend-dot" style="background:#C9A84C"></div>柒柒学姐</div>
+        <div class="metro-legend-item"><div class="metro-legend-dot" style="background:var(--ink);border:1px solid var(--muted)"></div>换乘站</div>
+      </div>
+    </div>
+
+    <!-- 文字版时间线 -->
+    <div class="card" style="margin-top:1.5rem">
+      <span class="card-label purple">&#x1F4C5; 文字版备考规划</span>
+      <h3>四个阶段，照着走就行</h3>
+
+      <div style="margin-top:1rem">
+        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#603F98;margin-bottom:.6rem">&#x1F331; 3-5月 · 打地基</h4>
+        <ul>
+          <li><strong>专业课：</strong>把基础和实务多看几遍，先不背，目标是理解和熟悉。后续背诵会轻松很多。</li>
+          <li><strong>英语：</strong>背单词（每天坚持！）；阅读一刷，要精刷。推荐用黄皮书的四级或六级版本。注意：黄皮书版本特别多，一定先去小红书搜一下各个版本的区别再买，别买错了。</li>
+          <li><strong>政治：</strong>时间充足的话可以看看马原，但这阶段没太大必要。</li>
+        </ul>
+      </div>
+
+      <div style="margin-top:1.2rem">
+        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#8B6DB5;margin-bottom:.6rem">&#x1F525; 5-7月 · 暑假前动员</h4>
+        <ul>
+          <li><strong>专业课：</strong>开始背诵，but only背书上知识，先不想热点和论述，专注把书背进去。</li>
+          <li><strong>英语：</strong>继续背单词；阅读二刷。</li>
+          <li><strong>政治：</strong>无，看看时政就行。</li>
+          <li>&#x26A0;&#xFE0F; <strong>阶段末尾很重要：</strong>回顾过去四个月的准备情况，制定暑假阶段的规划。暑假是我认为最重要的阶段，提前规划好能少走很多弯路。</li>
+        </ul>
+      </div>
+
+      <div style="margin-top:1.2rem">
+        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#C9A84C;margin-bottom:.6rem">&#x1F4AA; 7-9月 · 第二重要的阶段</h4>
+        <ul>
+          <li><strong>专业课：</strong>第三遍背诵时，脑子里要开始想"哪些地方可以结合哪些具体案例"——不仅加深理解，也为论述写作打基础。同时开始错句、文言文、文常的知识点摄入。每天做一道各院校真题练手。</li>
+          <li><strong>英语：</strong>除了阅读外，开始特殊题型训练（完型/新题型）和翻译，根植于真题即可。</li>
+          <li><strong>政治：</strong>可以看徐涛的课，每节课跟上就行。个人认为并没有啥用，但是不看心里会慌慌的。</li>
+        </ul>
+      </div>
+
+      <div style="margin-top:1.2rem">
+        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#D4564E;margin-bottom:.6rem">&#x1F680; 10-12月 · 冲刺（摒弃杂念，就是冲）</h4>
+        <ul>
+          <li><strong>专业课：</strong>第四遍 = 热点 + 全篇背诵；第五遍 = 根据学校当年重点（比如今年偏市场/发行方向）+ 热点，有侧重地背。文言文、错句、文常每天选两项进行。<strong>安排2-3次模考</strong>，每次模考后一定要复盘。</li>
+          <li><strong>英语：</strong>除了刷题外，开始总结自己的作文模板。<strong>一定要自己整理！</strong>江苏今年低分的据说都是背的大众模板。简单就行，确保没有语法错误。</li>
+          <li><strong>政治：</strong>刷题——肖8、腿姐、余峰，什么都刷。每天翻20面腿姐背诵手册；腿姐9张纸可以开始背诵，但没必要追求每个字都记住。</li>
+        </ul>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- LEVEL 2: 专业课 -->
+  <section class="section" id="zhuanye">
+    <div class="level-badge"><span class="lock">&#x1F512;</span><span class="level-text">LEVEL 2 · 专业课</span></div>
+    <h2 class="section-title">专业课：别只闷头背，要学会"编"</h2>
+    <p class="section-desc">点击卡片翻转查看我的真实使用感受 &#x1F447;</p>
+
+    <div class="flip-grid">
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front"><span class="flip-icon">&#x1F98A;</span><span class="flip-name">狸想</span><span class="flip-hint">点击翻转</span></div>
+          <div class="flip-back"><p>内容确实多，但我背着背着就乱了，板块太碎了。适合基础好、能自己整合的人。</p></div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front"><span class="flip-icon">&#x1F327;</span><span class="flip-name">响雨</span><span class="flip-hint">点击翻转</span></div>
+          <div class="flip-back"><p>主要看的数字出版部分，后期用得不多。内容还行，但覆盖面不够全。</p></div>
+        </div>
+      </div>
+      <div class="flip-card" onclick="this.classList.toggle('flipped')">
+        <div class="flip-inner">
+          <div class="flip-front"><span class="flip-icon">&#x2728;</span><span class="flip-name">小淇</span><span class="flip-hint">点击翻转</span></div>
+          <div class="flip-back"><p>框架清晰，而且留了空白让你自己补热点——这个设计真的好用，我后期全靠它。</p></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="quote-box">
+      <p>说实话，南大现在的出题越来越"活"了。不是让你原封不动背课本，而是给你一个话题，让你自己"编"出一篇像样的论述。所以背的时候别太纠结一字不差，关键是你能不能用自己的话把这个知识点讲清楚，再结合一个热点案例撑起来。</p>
+    </div>
+
+    <div class="card">
+      <span class="card-label purple">&#x1F4DA; 我的背诵节奏</span>
+      <h3>专业课背了5遍，书翻烂了</h3>
+      <p>专业课最终背了5遍，书真的翻烂了，边角都卷起来了。一开始每天背两章，得花四个小时，背完人都傻了。后来慢慢熟练了，同样的内容稳定在两个半小时就能过完。</p>
+      <p>这个变化过程其实就是考研最让人有成就感的地方——<strong>从"背不下来"到"张嘴就来"，你能真实感受到自己在变强。</strong>第一遍像在爬山，第二遍像在走路，第三遍开始跑起来了。</p>
+    </div>
+
+    <!-- 知识点默写照片 -->
+    <div class="img-card">
+      <img src="img/be8d250296edc8781d17b018a2cdf8cd.jpg" alt="知识点默写">
+      <p class="img-caption">督学每天要求默写的知识点——写到手抖，但这些默写真的让我记得更牢了。</p>
+    </div>
+  </section>
+
+  <!-- LEVEL 3: 335 -->
+  <section class="section" id="s335">
+    <div class="level-badge"><span class="lock">&#x1F512;</span><span class="level-text">LEVEL 3 · 335 闯关</span></div>
+    <h2 class="section-title">335：考完上午我差点不想去下午了</h2>
+
+    <div class="card">
+      <span class="card-label red">&#x1F525; 真实考场心态</span>
+      <h3>中午吃着老乡鸡，觉得完蛋了</h3>
+      <p>335考完我做的第一件事是掏出手机给所有认识的老师发消息吐槽——"这题也太离谱了吧"。然后中午去吃老乡鸡，平时最爱的饭，那天嚼着跟吃纸一样，完全没味道。脑子里就一个念头：<strong>完了，得开始找工作了。</strong></p>
+      <p>下午去不去考场我犹豫了整个午饭时间。最后还是去了，原因特别朴素——来都来了，背了大半年，总不能只考半天吧。就硬着头皮坐进去，把能写的全写上了。</p>
+      <p>后来才知道，那年几乎所有人都觉得难。所以别被考场上的感觉吓到——你觉得难，别人也在崩溃，<strong>你只要写满了，就已经赢了一大批中途放弃的人。</strong></p>
+    </div>
+
+    <div class="card">
+      <span class="card-label purple">&#x1F3AF; 四个题型，我是这么准备的</span>
+      <h3>每个都有具体方法，不是空话</h3>
+      <div class="timeline">
+        <div class="tl-item"><div class="tl-title">选择题 · 文学常识</div><p class="tl-text">这个真的没法押题，我就每天花15分钟看南京公务员文常资料，不图记住多少，就图个眼熟。万一考到一两个呢，总比完全蒙强。</p></div>
+        <div class="tl-item"><div class="tl-title">文言文翻译</div><p class="tl-text">每天翻一小段《古文观止》，练的不是你能翻多准，而是"不认识的字怎么猜"。考场上百分之百有不认识的字，靠上下文推理编出来通顺就行。</p></div>
+        <div class="tl-item"><div class="tl-title">文章改错</div><p class="tl-text">这个我吃了亏，花了太多时间。建议平时多做"高考病句100例"之类的题找感觉，考场上别一个字一个字纠——先整体扫一遍，再定点改。</p></div>
+        <div class="tl-item"><div class="tl-title">大作文</div><p class="tl-text">考的是你对出版某个具体方向的整体认知，比如教育出版、主题出版、编辑出版学这些。你得对一个方向有完整的了解——它的定义是什么、用了什么研究方法、具体的产品形态有哪些、历史沿革是怎样的。说白了就是考你对这个领域的"全景认知"，不是背一段就行的。</p></div>
+      </div>
+    </div>
+
+    <!-- 文常复习截图 -->
+    <div class="img-row">
+      <div class="img-card half">
+        <img src="img/文常.jpg" alt="文学常识复习">
+        <p class="img-caption">文常复习资料，重点用黄色标出来反复看</p>
+      </div>
+      <div class="img-card half">
+        <img src="img/文言文.jpg" alt="文言文翻译练习">
+        <p class="img-caption">每天一段古文观止，红蓝笔批注关键词</p>
+      </div>
+    </div>
+
+    <!-- QUIZ -->
+    <div class="quiz-box" id="quizBox">
+      <h4>&#x1F3AE; 小测验：下面哪个不是335的考试题型？</h4>
+      <div class="quiz-options">
+        <div class="quiz-opt" onclick="checkQuiz(this,false)">选择题</div>
+        <div class="quiz-opt" onclick="checkQuiz(this,false)">文言文翻译</div>
+        <div class="quiz-opt" onclick="checkQuiz(this,true)">名词解释</div>
+        <div class="quiz-opt" onclick="checkQuiz(this,false)">大作文</div>
+      </div>
+      <div class="quiz-result" id="quizResult"></div>
+    </div>
+  </section>
+
+  <!-- LEVEL 4: 441 -->
+  <section class="section" id="s441">
+    <div class="level-badge"><span class="lock">&#x1F512;</span><span class="level-text">LEVEL 4 · 441 闯关</span></div>
+    <h2 class="section-title">441：每道题都是小论文</h2>
+
+    <div class="card">
+      <span class="card-label teal">&#x1F4C8; 出题风格变了</span>
+      <h3>别再指望考原题了</h3>
+      <p>以前441可能背背课本就行，但现在完全不是那回事了。每一道题都要你写论述，相当于现场写一篇小论文。光会背不够，你得知道今年出版行业发生了什么大事，能把知识点和热点结合起来写。</p>
+      <p><strong>具体怎么做？</strong>我的方法是：每周花一两个小时刷出版行业公众号（推荐：出版人杂志、中国新闻出版广电报、出版商务周报、出版广角、出版发行研究、出版参考、编辑之友），看到好的案例就记下来，考场上直接当论据用。然后提前练几道论述题，找学姐批改——光自己写不知道好不好，得有人给反馈。</p>
+      <p><strong>连珠成线的思维方式很重要：</strong>一个热点能串起多个知识点。比如"AI+出版"这个热点，它同时涉及了编辑出版学（AI辅助审校、智能排版）、数字出版（AIGC内容生产、智能推荐）、出版法规（AI生成内容的版权问题）、出版产业经济（降本增效、新业态）。一个热点，四个方向的题目都能用。这种思维练多了，考场上看到任何题目都能快速找到切入点。</p>
+    </div>
+
+    <!-- 每日复习笔记 -->
+    <div class="img-card">
+      <img src="img/每日完成任务.jpg" alt="每日复习笔记">
+      <p class="img-caption">督学每天布置的默写任务——从出版史到数据库检索，一个都不能漏</p>
+    </div>
+  </section>
+
+  <!-- LEVEL 5: 英语 -->
+  <section class="section" id="english">
+    <div class="level-badge"><span class="lock">&#x1F512;</span><span class="level-text">LEVEL 5 · 英语二</span></div>
+    <h2 class="section-title">英语87分：我只做了一件事</h2>
+
+    <div class="card">
+      <span class="card-label blue">&#x1F4AF; 就是刷真题</span>
+      <div class="score-display"><span class="big-num" data-count="87">0</span><span class="unit">分 · 英语二</span></div>
+      <p>没什么花里胡哨的方法，就是做题。只做英语二真题，英语一没碰过。最重要的两件事：<strong>一是刷题，二是跟柴荣老师的课</strong>。柴荣老师讲解题思路特别清楚，跟着她走，阅读提升很明显。</p>
+    </div>
+
+    <div class="card">
+      <span class="card-label blue">&#x1F4DD; 我的英语刷题方法</span>
+      <h3>真题怎么刷才有效</h3>
+      <ul>
+        <li><strong>单词：</strong>从3月背到考前一天，不停！一天都不能断。推荐APP背，比纸质书效率高。</li>
+        <li><strong>阅读一刷（3-5月）：</strong>精刷！推荐用黄皮书四级/六级版本（版本很多，先去小红书搜各版本区别）。每篇限时做完 → 对答案 → 跟柴荣老师课听解题思路 → 整理错题和生词。</li>
+        <li><strong>阅读二刷（5-7月）：</strong>重点看错题，巩固做题方法，保持手感。</li>
+        <li><strong>特殊题型+翻译（7-9月）：</strong>完型、新题型、翻译，都以真题为主。</li>
+        <li><strong>作文模板（9月中旬开始）：</strong>自己攒一个模板，考前练十来篇。<strong>模板一定要自己整理！</strong>江苏今年主观题低分的据说都是背的大众模板。简单就行，但确保没有语法错误。</li>
+      </ul>
+    </div>
+
+    <!-- 英语作文照片 -->
+    <div class="img-row">
+      <div class="img-card half">
+        <img src="img/英语.jpg" alt="英语大作文练习">
+        <p class="img-caption">大作文练笔——关于健康素养的图表作文</p>
+      </div>
+      <div class="img-card half">
+        <img src="img/616315bacce813930bb8dedd9651224c.jpg" alt="英语小作文练习">
+        <p class="img-caption">小作文练习——通知类应用文，格式练熟了考场不慌</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- LEVEL 6: 政治 -->
+  <section class="section" id="politics">
+    <div class="level-badge"><span class="lock">&#x1F512;</span><span class="level-text">LEVEL 6 · 政治</span></div>
+    <h2 class="section-title">政治：我没用肖秀荣</h2>
+
+    <div class="card">
+      <span class="card-label red">&#x2B50; 别太早开始</span>
+      <h3>战线拉长了反而记不住</h3>
+      <p>客观题30-34分，主观题大概40分。主观题全程跟的腿姐。</p>
+    </div>
+
+    <div class="card">
+      <span class="card-label red">&#x1F4DA; 政治资料和节奏</span>
+      <h3>我用了什么、怎么用的</h3>
+      <ul>
+        <li><strong>7-9月：</strong>可以看徐涛的课（个人觉得没啥用但不看心里慌），每节跟上就行。</li>
+        <li><strong>10-12月：</strong>刷题——肖8、腿姐、余峰，什么都刷。每天翻20面<strong>腿姐背诵手册</strong>（选它因为最薄，知识点一点不少）。腿姐9张纸可以开始背诵，但没必要追求每个字都记住。</li>
+      </ul>
+      <p>
+      <p><strong>真正拉开差距的是什么？是你敢不敢"胡诌"。</strong>听着不靠谱对吧？但真的是这样——你敢不敢把过去积累的时政知识和题目材料灵活运用在答案里。比如今年政治大题最后一题考的是中国与第三世界国家的关系，我直接从春秋战国时期说起，讲到中国重返联合国，再到现在的一带一路、金砖合作，用具体事例一路佐证下来。别人只会背模板写套话，而你敢往里加真材实料，阅卷老师一眼就看出来了。</p><p>所以平时没事多看看新闻联播、人民日报公众号，看到和考点相关的随手记两句。这些积累考场上真的用得上。</p>
+    </div>
+
+    <!-- 政治复习照片 -->
+    <div class="img-card">
+      <img src="img/ef4fb3d1e58ed0f57e387a4252c65dfb.jpg" alt="政治时政复习">
+      <p class="img-caption">考前一天在酒店里还在背政治——结果这部分没考到，白背了（笑哭）</p>
+    </div>
+  </section>
+
+  <!-- LEVEL 7: 柒柒学姐 (SPECIAL) -->
+  <section class="section" id="qiqi">
+    <div class="level-badge"><span class="lock">&#x1F31F;</span><span class="level-text">SPECIAL · 宝藏学姐</span></div>
+    <h2 class="section-title">柒柒学姐：不只是老师，更像一个真心希望你考上的朋友</h2>
+    <p class="section-desc">如果只能推荐一个人，那一定是她。不是客套话。</p>
+
+    <div class="card" style="border:2px solid rgba(201,168,76,.3);background:linear-gradient(135deg,#FFFDF5,#FFF9E8)">
+      <span class="card-label gold">&#x1F451; 报课这件事</span>
+      <h3>我前后找了十多个老师</h3>
+      <p>在报课方面，本人报了非常多的课，不夸张地说我应该前后找了大概十多个老师来进行学习和辅导，十分感谢每一位学长学姐，但是说实在的，可能是风格的不适应或者说是我个人的原因，真正能够对于我派上用处的是其中几个学长学姐。</p>
+      <p>其中最最有用的，是<strong>柒柒学姐</strong>，无论是具体的论述的写作，还是热点的讲述，抑或是情绪的安抚，都是一等一的棒。我感觉教学热情是考研老师最重要的点，柒柒学姐无疑是我认识的所有老师里，最有教学热情的老师。</p>
+      <p>如果报课，第一个让我推荐的绝对是柒柒学姐（其他学长学姐不要伤心，你们要是听了柒柒学姐的课以及整体辅导的模式也会爱上的），第二个是响雨，第三个是别太用力考版硕。</p>
+      <p><strong>任何一个老师，你只要跟到底，都是会有很大的成长的。</strong></p>
+      <p>对了，柒柒学姐每个月都会跟我聊一次，不是那种"你要加油"的空话，是真的帮你分析现阶段的问题在哪、下个月重点该放在什么上面。每次聊完都觉得方向又清晰了一些。这种持续的陪伴，真的受益匪浅。</p>
+    </div>
+
+    <!-- 柒柒学姐真实截图 -->
+    <div class="img-card">
+      <img src="img/柒柒姐情绪疏导学习指引中.jpg" alt="柒柒学姐学习指引">
+      <p class="img-caption">柒柒学姐给我做的学习指引——具体到每天背几页、先追进度还是先巩固，都帮我规划好了</p>
+    </div>
+
+    <div class="img-card">
+      <img src="img/柒柒姐督学.jpg" alt="小锅学姐督学记录">
+      <p class="img-caption">小锅学姐的督学记录——从开始备考到考前最后一天，大半年的陪伴和监督都在这里了。</p>
+    </div>
+
+    
+  </section>
+
+  <!-- LEVEL 8: 备考心得 -->
+  <section class="section" id="tips">
+    <div class="level-badge"><span class="lock">&#x1F512;</span><span class="level-text">LEVEL 8 · 备考心得</span></div>
+    <h2 class="section-title">这些事我希望有人早点告诉我</h2>
+
+    <!-- 刷题 + 开窍 -->
+    <div class="card">
+      <span class="card-label gold">&#x270D;&#xFE0F; 练题量 + 开窍瞬间</span>
+      <h3>我到底刷了多少题</h3>
+      <p>后期几乎每天都在写论述题，写完发给柒柒学姐批改，改完再写。到考前写了厚厚一沓纸。</p>
+      <p>十一月份的时候，有一天我写完一道论述题，自己读了一遍，突然感觉——哎，这次写的好像有那么点意思了？框架清晰，论据具体，逻辑也通顺。<strong>那是我第一次觉得"我可能真的能考上"。</strong>开窍了的感觉就是这样——不是突然开挂，而是前面积累的量终于变成了质。</p>
+    </div>
+
+    <div class="card">
+      <span class="card-label purple">&#x1F4A1; 如果只能留三个建议</span>
+      <h3>最有用的三个学习方法</h3>
+      <ul>
+        <li><strong>以题检验，不要傻背：</strong>背完一个板块就马上做题检验，写不出来说明没背住，回去重背。光用眼睛"看"会产生"我会了"的错觉，动笔写才是真的会。</li>
+        <li><strong>找一个"监督者"：</strong>每天学完拍照发给学姐或者搭子，不是为了炫耀，而是给自己一个"今天必须完成"的外部压力。有人看着和没人看着，效率完全不一样。</li>
+        <li><strong>连珠成线，一个热点串多个知识点：</strong>比如"AI+出版"这个热点，它能同时用在编辑出版学、数字出版、版权法规、产业经济四个方向的题目上。</li>
+      </ul>
+    </div>
+
+    <!-- 练题照片 -->
+    <div class="img-row">
+      <div class="img-card half">
+        <img src="img/练题.jpg" alt="专业课练习答卷">
+        <p class="img-caption">随便一张练题纸——密密麻麻写满了论述</p>
+      </div>
+      <div class="img-card half">
+        <img src="img/d24e2ea94dc4d42b33039527b9e92de4.jpg" alt="模拟题答卷">
+        <p class="img-caption">后期冲刺阶段的模拟题，练手速也练思路</p>
+      </div>
+    </div>
+
+    <!-- 计划本 -->
+    <div class="card">
+      <span class="card-label teal">&#x1F4C6; 计划本</span>
+      <h3>从三月写到十二月，写满了两本</h3>
+      <p>我从三月份开始每天写计划，不是那种很正式的表格，就是一个小本子，每天列出今天要做什么，做完就打个勾。有个小技巧：<strong>每天故意多列一两件</strong>，完成了就当赚到，没完成也不亏。这样不会有"今天又没完成"的挫败感。</p>
+      <p>写到七月的时候第一本用完了，换第二本的时候有种"我真的在一步步靠近目标"的感觉，特别有成就感。</p>
+    </div>
+
+    <!-- 计划本照片 -->
+    <div class="img-row">
+      <div class="img-card half">
+        <img src="img/两本计划书交接中.jpg" alt="两本计划本交接">
+        <p class="img-caption">新旧两本计划本交接——第一本写满了！</p>
+      </div>
+      <div class="img-card half">
+        <img src="img/计划.jpg" alt="每日计划详情">
+        <p class="img-caption">7/16的计划：每科都列出来，连晚饭吃什么都记了（笑）</p>
+      </div>
+    </div>
+
+    <!-- AI辅助 -->
+    <div class="ai-card" id="aiCard">
+      <span class="card-label">&#x1F916; AI 辅助</span>
+      <h3>AI不能替你背书，但能帮你"练嘴"</h3>
+      <div class="ai-typewriter" id="aiTypewriter">
+        <p class="ai-line">后期我发现一个特别好用的方法：把背的知识点输入ChatGPT或者Kimi，让它当面试官来提问你。</p>
+        <p class="ai-line">比如你跟它说"你是出版专业的面试官，请就数字出版的发展趋势考我三个问题"——它会出题，你来答，它来评。比自己闷头背强多了，因为你得<strong>用自己的话组织答案</strong>，这恰好就是考试需要的能力。</p>
+        <ul>
+          <li class="ai-line"><strong>让AI出题考你</strong>——模拟答题场景，练"张嘴就来"的能力</li>
+          <li class="ai-line"><strong>让AI帮你搭框架</strong>——给个话题它帮你列提纲，然后你自己填内容</li>
+          <li class="ai-line"><strong>让AI批改论述</strong>——把你写的答案发给它，让它指出问题在哪</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- AI辅助截图 -->
+    <div class="img-card">
+      <img src="img/AI辅助.jpg" alt="AI辅助学习截图">
+      <p class="img-caption">用ChatGPT分析英语阅读的解题思路——它会帮你还原思考过程，比对答案有用得多</p>
+    </div>
+
+    <!-- 注意力 -->
+    <div class="card" style="border:2px solid rgba(212,86,78,.2);background:linear-gradient(135deg,#FFF5F4,#FFF0EE)">
+      <span class="card-label red">&#x1F36B; 考场名场面</span>
+      <h3>我吃了一块带纸的巧克力</h3>
+      <p>考场不让带有包装的食物，所以我提前把巧克力拆了用白纸包着带进去。考前一天晚上没睡好，第二天困得不行，就打算吃块巧克力提提神。结果——考场暖气太足了，巧克力化了，跟纸粘在一起了。</p>
+      <p>我当时看着手里那团黏糊糊的东西，犹豫了大概三秒钟，然后把巧克力连着纸一起塞嘴里了。</p>
+      <p>嗯，纸的口感不太好，但巧克力还是甜的。<strong>考研嘛，有时候就得连纸一起吞。</strong></p>
+    </div>
+
+    <div class="card">
+      <span class="card-label purple">&#x1F630; 关于焦虑</span>
+      <h3>焦虑到觉得自己生病了</h3>
+      <p>备考中期有段时间我特别焦虑——不只是焦虑学习，还焦虑身体。心跳快了觉得自己心脏有问题，头疼了觉得自己要猝死，胃不舒服了觉得自己得了胃病。跑了好几次医院，检查结果都是：没事，就是焦虑。</p>
+      <p>后来我才明白，<strong>那些"身体不适"其实都是焦虑在作怪。</strong>它会让你觉得自己哪哪都不对劲，但其实你好得很，只是脑子太累了。如果你也有类似的感觉，别太害怕，去医院查一下图个安心就好。</p>
+      <p>还有一个事：有些知识点你会发现死活背不下来，背了忘、忘了背，反反复复。别崩溃，这是正常的。每个人都有自己的"死穴知识点"，多背几遍就好了，实在不行考场上现编也行（反正南大考的是论述不是默写）。</p>
+    </div>
+
+    <div class="card">
+      <span class="card-label red">&#x1F4A1; 致容易走神的你</span>
+      <h3>我背书的时候一直开着B站</h3>
+      <p>别笑，是真的。我就是坐不住那种人，背十分钟就想刷手机。后来我想通了——<strong>既然效率上拼不过别人，那就拿时间补。</strong>别人背2小时记住的东西，我可能要花4小时，但花4小时也是花了。最后考出来的分数不会问你是效率高还是时间长，只看结果。</p>
+      <p>所以别因为自己注意力不集中就焦虑，承认这个事实，然后想办法绕过它。我的办法是：把大任务切成小块，每背完一小块就允许自己刷5分钟B站当奖励。虽然土，但管用。</p>
+    </div>
+  </section>
+
+  <!-- 工具清单 -->
+  <section class="section" id="tools">
+    <div class="level-badge"><span class="lock">&#x1F512;</span><span class="level-text">BONUS · 工具箱</span></div>
+    <h2 class="section-title">我用过的所有工具和资料</h2>
+
+    <div class="card">
+      <h3>&#x1F4DA; 资料类</h3>
+      <ul>
+        <li><strong>小淇笔记</strong>——专业课背诵主力，框架清晰，留白补热点</li>
+        <li><strong>黄皮书</strong>——英语二真题（注意选对版本，先搜小红书）</li>
+        <li><strong>腿姐背诵手册</strong>——政治背诵，选它因为最薄</li>
+        <li><strong>腿姐9张纸</strong>——考前冲刺背诵</li>
+        <li><strong>肖8/腿姐/余峰模拟卷</strong>——政治刷题</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>&#x1F4F1; 工具类</h3>
+      <ul>
+        <li><strong>番茄TODO</strong>——计时，记录每天学了多少小时</li>
+        <li><strong>幕布</strong>——整理知识框架和思维导图</li>
+        <li><strong>北京开卷</strong>——出版行业数据，写论述时可以引用</li>
+        <li><strong>Claude / ChatGPT / 豆包</strong>——AI辅助背诵和论述练习</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3>&#x1F4F0; 出版行业公众号（热点积累必备）</h3>
+      <ul>
+        <li>出版人杂志、出版商务周报、中国新闻出版广电报</li>
+        <li>出版广角、出版发行研究、出版参考</li>
+        <li>编辑之友、中国编辑、现代出版</li>
+        <li>中国出版、科技与出版</li>
+      </ul>
+      <p style="font-size:.85rem;color:#8A8198;margin-top:.5rem">看的时候把好的案例、好的句子记在小本子上，碎片时间拿出来看一眼，考场上就能信手拈来。</p>
+    </div>
+
+    <div class="card">
+      <h3>&#x1F3EB; 课程推荐</h3>
+      <ul>
+        <li><strong>柒柒学姐全程班</strong>——专业课论述+热点+情绪，第一推荐</li>
+        <li><strong>柴荣老师</strong>——英语二阅读，B站能搜到</li>
+        <li><strong>腿姐</strong>——政治主观题背诵</li>
+        <li><strong>徐涛</strong>——政治基础阶段（可选）</li>
+      </ul>
+    </div>
+  </section>
+
+</div>
+
+<!-- CTA -->
+<section class="cta-section" id="final">
+  <canvas id="ctaCanvas"></canvas>
+  <h2>写了这么多，其实就一句话</h2>
+  <p>知道我收到上岸消息的时候在干嘛吗？在实习。说来好笑，那一刻居然没有特别兴奋——真正最激动的是初试成绩出来的那天，激动到手抖。</p>
+  <p>所以别想太多，先开始。开始了就成功一半了。剩下的一半靠坚持。我这种背书开着守护解放西的人都考上了，你肯定也行。</p>
+</section>
+
+<footer><span id="footerEgg">南京大学出版专硕 · 上岸经验分享 · 点我放烟花 &#x1F389;</span></footer>
+
+<script>
+
+// === SPLASH ===
+function startJourney(){document.getElementById("splash").classList.add("hidden");setTimeout(initHero,500)}
+
+// === HERO PARTICLES (Canvas) ===
+function initParticles(canvasId,color1,color2){var c=document.getElementById(canvasId);if(!c)return;var ctx=c.getContext("2d");var particles=[];function resize(){c.width=c.parentElement.offsetWidth;c.height=c.parentElement.offsetHeight}resize();window.addEventListener("resize",resize);for(var i=0;i<50;i++){particles.push({x:Math.random()*c.width,y:Math.random()*c.height,r:Math.random()*2+1,dx:(Math.random()-.5)*.5,dy:(Math.random()-.5)*.5,color:Math.random()>.5?color1:color2})}function draw(){ctx.clearRect(0,0,c.width,c.height);particles.forEach(function(p){ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=p.color;ctx.globalAlpha=.4;ctx.fill();p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>c.width)p.dx*=-1;if(p.y<0||p.y>c.height)p.dy*=-1});requestAnimationFrame(draw)}draw()}
+
+// === HERO INIT ===
+function initHero(){
+  initParticles("heroCanvas","rgba(201,168,76,.6)","rgba(139,109,181,.4)");
+  initParticles("ctaCanvas","rgba(201,168,76,.6)","rgba(139,109,181,.4)");
+  // Badge
+  var badge=document.getElementById("heroBadge");badge.style.opacity="1";badge.style.animation="fadeUp .8s ease-out both";
+  // Typewriter title
+  setTimeout(typeHeroTitle,400);
+}
+
+// === TYPEWRITER ===
+function typeHeroTitle(){
+  var el=document.getElementById("heroTitle");
+  var text="\u4ece\u8ff7\u832b\u5230|\u4e0a\u5cb8|<br>\u6211\u7684\u8003\u7814\u5168\u7eaa\u5f55";
+  var i=0;var html="";var inHL=false;
+  el.innerHTML='<span class="cursor"></span>';
+  function type(){
+    if(i>=text.length){el.querySelector(".cursor").remove();showHeroRest();return}
+    var ch=text[i];
+    if(ch==="|"){if(!inHL){html+='<span class="hl">';inHL=true}else{html+="</span>";inHL=false}i++;type();return}
+    if(ch==="<"){var end=text.indexOf(">",i);html+=text.substring(i,end+1);i=end+1;el.innerHTML=html+'<span class="cursor"></span>';setTimeout(type,50);return}
+    html+=ch;i++;el.innerHTML=html+'<span class="cursor"></span>';setTimeout(type,80+Math.random()*60)
+  }
+  type()
+}
+
+function showHeroRest(){
+  var sub=document.getElementById("heroSub");sub.style.opacity="1";
+  var scores=document.getElementById("heroScores");scores.style.opacity="1";
+  var scroll=document.getElementById("heroScrollHint");scroll.style.opacity="1";
+  // Count up
+  setTimeout(function(){
+    document.querySelectorAll(".hero-score").forEach(function(el){
+      var target=parseInt(el.dataset.target);var suffix=el.dataset.suffix||"";
+      var numEl=el.querySelector(".num");var current=0;
+      var step=Math.ceil(target/40);
+      var timer=setInterval(function(){
+        current+=step;if(current>=target){current=target;clearInterval(timer)}
+        numEl.textContent=current+suffix
+      },30)
+    })
+  },200)
+}
+
+// === MOUSE GLOW ===
+document.getElementById("heroSection").addEventListener("mousemove",function(e){
+  var glow=document.getElementById("heroGlow");
+  glow.style.left=e.clientX+"px";glow.style.top=e.clientY+"px"
+});
+
+// === PARTICLE BURST on score click ===
+function burstParticles(el){
+  el.classList.add("clicked");setTimeout(function(){el.classList.remove("clicked")},400);
+  var rect=el.getBoundingClientRect();var cx=rect.left+rect.width/2;var cy=rect.top+rect.height/2;
+  for(var i=0;i<12;i++){
+    var p=document.createElement("div");p.className="particle";
+    var size=Math.random()*6+3;var angle=Math.random()*Math.PI*2;var dist=Math.random()*60+30;
+    p.style.cssText="width:"+size+"px;height:"+size+"px;left:"+cx+"px;top:"+cy+"px;background:"+(Math.random()>.5?"#C9A84C":"#8B6DB5")+";--tx:"+Math.cos(angle)*dist+"px;--ty:"+Math.sin(angle)*dist+"px;position:fixed;z-index:9000";
+    document.body.appendChild(p);setTimeout(function(el){el.remove()},800,p)
+  }
+}
+
+// === PROGRESS BAR ===
+window.addEventListener("scroll",function(){
+  var h=document.documentElement.scrollHeight-window.innerHeight;
+  var pct=Math.min(100,Math.round(window.scrollY/h*100));
+  document.getElementById("progressBar").style.width=pct+"%";
+  var label=document.getElementById("progressLabel");
+  label.textContent="\u901a\u5173\u8fdb\u5ea6 "+pct+"%";
+  label.classList.toggle("show",window.scrollY>300);
+  // Nav
+  document.getElementById("navbar").classList.toggle("scrolled",window.scrollY>10);
+  // Active nav
+  var current="";
+  document.querySelectorAll(".section,.cta-section").forEach(function(s){if(window.scrollY>=s.offsetTop-150)current=s.id});
+  document.querySelectorAll(".nav-bar a").forEach(function(a){a.classList.toggle("active",a.getAttribute("href")==="#"+current)})
+});
+
+// === SCROLL REVEAL + LEVEL UNLOCK ===
+var unlocked={};
+var observer=new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
+    if(entry.isIntersecting){
+      var el=entry.target;el.classList.add("visible");
+      // Unlock lock icon
+      var lock=el.querySelector(".level-badge .lock");
+      if(lock&&lock.textContent==="\u{1F512}"){lock.textContent="\u{1F513}"}
+      // Achievement
+      var id=el.id;
+      if(id&&!unlocked[id]){unlocked[id]=true;triggerAchievement(id)}
+      // Chat animation
+      if(id==="qiqi")animateChat();
+      // AI typewriter
+      if(id==="tips")animateAITypewriter();
+      // Stars
+      if(id==="qiqi")animateStars();
+      // Score countup
+      el.querySelectorAll(".big-num[data-count]").forEach(function(n){
+        var t=parseInt(n.dataset.count);var c=0;var s=Math.ceil(t/30);
+        var timer=setInterval(function(){c+=s;if(c>=t){c=t;clearInterval(timer)}n.textContent=c},30)
+      })
+    }
+  })
+},{threshold:.1,rootMargin:"0px 0px -30px 0px"});
+document.querySelectorAll(".section").forEach(function(s){observer.observe(s)});
+
+// === ACHIEVEMENTS ===
+var achMap={
+  intro:{icon:"\u{1F3C1}",text:"\u5F00\u59CB\u63A2\u7D22"},
+  zhuanye:{icon:"\u{1F4DA}",text:"\u4E13\u4E1A\u8BFE\u5165\u95E8"},
+  s335:{icon:"\u{1F525}",text:"335 \u52C7\u8005\u95EF\u5173"},
+  s441:{icon:"\u{1F4C8}",text:"441 \u77E5\u8BC6\u878D\u5408"},
+  english:{icon:"\u{1F4AF}",text:"\u82F1\u8BED\u8FBE\u4EBA"},
+  politics:{icon:"\u{2B50}",text:"\u653F\u6CBB\u89C9\u9192"},
+  qiqi:{icon:"\u{1F451}",text:"\u89E3\u9501\u5B9D\u85CF\u5B66\u59D0"},
+  tips:{icon:"\u{1F916}",text:"\u89E3\u9501 AI \u79D8\u7C4D"}
+};
+function triggerAchievement(id){
+  var info=achMap[id];if(!info)return;
+  var panel=document.getElementById("achPanel");
+  var el=document.createElement("div");el.className="achievement";
+  el.innerHTML='<span class="ach-icon">'+info.icon+'</span><span>'+info.text+'</span>';
+  panel.appendChild(el);
+  setTimeout(function(){el.classList.add("show")},100);
+  setTimeout(function(){el.classList.remove("show");setTimeout(function(){el.remove()},500)},3000)
+}
+
+// === CHAT ANIMATION ===
+var chatAnimated=false;
+function animateChat(){
+  if(chatAnimated)return;chatAnimated=true;
+  var msgs=document.querySelectorAll("#chatBody .chat-msg");
+  msgs.forEach(function(m,i){setTimeout(function(){m.classList.add("show")},i*400)})
+}
+
+// === STARS ANIMATION ===
+var starsAnimated=false;
+function animateStars(){
+  if(starsAnimated)return;starsAnimated=true;
+  var stars=document.querySelectorAll("#chatStars .star");
+  stars.forEach(function(s,i){setTimeout(function(){s.classList.add("lit")},800+i*300)})
+}
+
+// === AI TYPEWRITER ===
+var aiAnimated=false;
+function animateAITypewriter(){
+  if(aiAnimated)return;aiAnimated=true;
+  var lines=document.querySelectorAll("#aiTypewriter .ai-line");
+  lines.forEach(function(l,i){setTimeout(function(){l.classList.add("typed")},i*300)})
+}
+
+// === QUIZ ===
+var quizDone=false;
+function checkQuiz(el,correct){
+  if(quizDone)return;quizDone=true;
+  var result=document.getElementById("quizResult");
+  if(correct){
+    el.classList.add("correct");
+    result.textContent="\u{1F389} \u56DE\u7B54\u6B63\u786E\uFF01335 \u6CA1\u6709\u540D\u8BCD\u89E3\u91CA\u9898\u578B\uFF01";
+    result.style.color="#2E7D32";
+    triggerAchievement("quiz")
+  }else{
+    el.classList.add("wrong");
+    result.textContent="\u{1F914} \u518D\u60F3\u60F3\uFF5E \u8FD9\u4E2A\u662F 335 \u7684\u8003\u8BD5\u9898\u578B\u54E6\uFF01";
+    result.style.color="#C62828";
+    quizDone=false
+  }
+  result.classList.add("show")
+}
+// Add quiz to achievements
+achMap["quiz"]={icon:"\u{1F3AE}",text:"\u7B54\u9898\u5C0F\u80FD\u624B"};
+
+// === MOOD CURVE ===
+(function(){
+  var data=[
+    {x:50,y:80,label:"3\u6708\u00B7\u521A\u5F00\u59CB",mood:"\u8C01\u8BF4\u8003\u7814\u96BE\uff1f\u6211\u89C9\u5F97\u8FD8\u884C\u554A\uff08flag\u7ACB\u4E0B\uff09"},
+    {x:120,y:55,label:"5\u6708\u00B7\u80CC\u4E66\u4E2D",mood:"\u5475\uff0C\u80CC\u4E86\u5341\u9875\uff0C\u7275\u6302\u6211\u7684B\u7AD9\u89C6\u9891"},
+    {x:200,y:95,label:"7\u6708\u00B7\u74F6\u9888\u671F",mood:"\u80CC\u4E86\u5FD8\u5FD8\u4E86\u80CC\uff0C\u6211\u662F\u91D1\u9C7C\u5417\uff1f"},
+    {x:280,y:120,label:"8\u6708\u00B7\u5D29\u6E83",mood:"\u6A21\u62DF\u9898\u5199\u7684\u5565\u554A\u8FD9\u662F\u2026\u60F3\u56DE\u5BB6"},
+    {x:360,y:75,label:"9\u6708\u00B7\u88AB\u67D2\u67D2\u5B66\u59D0\u62C9\u56DE\u6765",mood:"\u884C\u5427\u518D\u8BD5\u8BD5\uff0C\u6B7B\u9A6C\u5F53\u6D3B\u9A6C\u533B"},
+    {x:440,y:50,label:"10\u6708\u00B7\u5F00\u7A8D\u4E86",mood:"\u8BBA\u8FF0\u7A81\u7136\u4F1A\u5199\u4E86\uff1f\uff1f\u6211\u53EF\u4EE5\uff01"},
+    {x:520,y:105,label:"11\u6708\u00B7\u7126\u8651\u5230\u770B\u533B\u751F",mood:"\u89C9\u5F97\u81EA\u5DF1\u54EA\u54EA\u90FD\u4E0D\u8212\u670D\uff0c\u68C0\u67E5\u7ED3\u679C\uff1a\u6CA1\u4E8B\uff0c\u5C31\u662F\u7126\u8651"},
+    {x:600,y:60,label:"12\u6708\u00B7\u6B7B\u78E2\u5230\u5E95",mood:"\u7BA1\u4ED6\u5462\uff0C\u5199\u5B8C\u62C9\u5012\u5C31\u8D62\u4E86"},
+    {x:670,y:15,label:"\u51FA\u5206\uff01",mood:"\u624B\u6296\u7740\u67E5\u7684\u6210\u7EE9\uff0c\u6FC0\u52A8\u5230\u8BDD\u90FD\u8BF4\u4E0D\u5229\u7D22\u4E86"}
+  ];
+  var svg=document.getElementById("moodSvg");
+  var tip=document.getElementById("moodTip");
+  // Draw path
+  var pathD="M";
+  data.forEach(function(d,i){
+    if(i===0)pathD+=d.x+","+d.y;
+    else pathD+=" C"+(data[i-1].x+50)+","+data[i-1].y+" "+(d.x-50)+","+d.y+" "+d.x+","+d.y
+  });
+  var path=document.createElementNS("http://www.w3.org/2000/svg","path");
+  path.setAttribute("d",pathD);path.setAttribute("fill","none");path.setAttribute("stroke","url(#moodGrad)");path.setAttribute("stroke-width","3");path.setAttribute("stroke-linecap","round");
+  // Gradient
+  var defs=document.createElementNS("http://www.w3.org/2000/svg","defs");
+  var grad=document.createElementNS("http://www.w3.org/2000/svg","linearGradient");
+  grad.id="moodGrad";grad.setAttribute("x1","0%");grad.setAttribute("x2","100%");
+  var s1=document.createElementNS("http://www.w3.org/2000/svg","stop");s1.setAttribute("offset","0%");s1.setAttribute("stop-color","#8B6DB5");
+  var s2=document.createElementNS("http://www.w3.org/2000/svg","stop");s2.setAttribute("offset","100%");s2.setAttribute("stop-color","#C9A84C");
+  grad.appendChild(s1);grad.appendChild(s2);defs.appendChild(grad);svg.appendChild(defs);svg.appendChild(path);
+  // Dots
+  data.forEach(function(d){
+    var circle=document.createElementNS("http://www.w3.org/2000/svg","circle");
+    circle.setAttribute("cx",d.x);circle.setAttribute("cy",d.y);circle.setAttribute("r","5");circle.setAttribute("fill","#603F98");circle.setAttribute("class","mood-dot");circle.setAttribute("stroke","#fff");circle.setAttribute("stroke-width","2");
+    circle.addEventListener("mouseenter",function(e){
+      tip.innerHTML="<strong>"+d.label+"</strong><br>"+d.mood;
+      tip.style.opacity="1";
+      var rect=svg.getBoundingClientRect();
+      tip.style.left=(rect.left+d.x*rect.width/700-tip.offsetWidth/2)+"px";
+      tip.style.top=(rect.top+d.y*rect.height/160-40)+"px"
+    });
+    circle.addEventListener("mouseleave",function(){tip.style.opacity="0"});
+    svg.appendChild(circle)
+  });
+  // Labels for first and last
+  var startLabel=document.createElementNS("http://www.w3.org/2000/svg","text");
+  startLabel.setAttribute("x",data[0].x);startLabel.setAttribute("y",data[0].y+25);startLabel.setAttribute("text-anchor","middle");startLabel.setAttribute("fill","#8A8198");startLabel.setAttribute("font-size","11");startLabel.textContent="\u5F00\u59CB";svg.appendChild(startLabel);
+  var endLabel=document.createElementNS("http://www.w3.org/2000/svg","text");
+  endLabel.setAttribute("x",data[data.length-1].x);endLabel.setAttribute("y",data[data.length-1].y+25);endLabel.setAttribute("text-anchor","middle");endLabel.setAttribute("fill","#C9A84C");endLabel.setAttribute("font-size","11");endLabel.setAttribute("font-weight","700");endLabel.textContent="\u4E0A\u5CB8\uFF01";svg.appendChild(endLabel)
+})();
+
+// === CARD TILT ===
+document.querySelectorAll(".card").forEach(function(card){
+  card.addEventListener("mousemove",function(e){
+    var rect=card.getBoundingClientRect();
+    var x=(e.clientX-rect.left)/rect.width-.5;
+    var y=(e.clientY-rect.top)/rect.height-.5;
+    card.style.transform="perspective(800px) rotateY("+x*6+"deg) rotateX("+(-y*6)+"deg) translateY(-2px)"
+  });
+  card.addEventListener("mouseleave",function(){card.style.transform=""})
+});
+
+// === FIREWORKS ===
+function launchFireworks(){
+  var canvas=document.getElementById("fireworksCanvas");canvas.style.display="block";
+  var ctx=canvas.getContext("2d");canvas.width=window.innerWidth;canvas.height=window.innerHeight;
+  var particles=[];var rockets=[];var hue=270;
+  function Particle(x,y,c){this.x=x;this.y=y;this.vx=(Math.random()-.5)*8;this.vy=(Math.random()-.5)*8;this.alpha=1;this.color=c}
+  function Rocket(x){this.x=x;this.y=canvas.height;this.vy=-12-Math.random()*4;this.exploded=false}
+  Rocket.prototype.update=function(){this.y+=this.vy;this.vy+=.15;if(this.vy>-2&&!this.exploded){this.exploded=true;for(var i=0;i<60;i++){var c="hsl("+(hue+Math.random()*60)+",80%,60%)";particles.push(new Particle(this.x,this.y,c))}hue=(hue+30)%360}};
+  var frame=0;var maxFrames=180;
+  function animate(){
+    if(frame>maxFrames&&particles.length===0){canvas.style.display="none";return}
+    ctx.fillStyle="rgba(0,0,0,.1)";ctx.fillRect(0,0,canvas.width,canvas.height);
+    if(frame<maxFrames&&frame%15===0){rockets.push(new Rocket(Math.random()*canvas.width*.8+canvas.width*.1))}
+    rockets=rockets.filter(function(r){r.update();if(!r.exploded){ctx.beginPath();ctx.arc(r.x,r.y,2,0,Math.PI*2);ctx.fillStyle="#fff";ctx.fill();return true}return false});
+    particles=particles.filter(function(p){p.x+=p.vx;p.y+=p.vy;p.vy+=.1;p.alpha-=.015;if(p.alpha<=0)return false;ctx.beginPath();ctx.arc(p.x,p.y,2,0,Math.PI*2);ctx.fillStyle=p.color;ctx.globalAlpha=p.alpha;ctx.fill();ctx.globalAlpha=1;return true});
+    frame++;requestAnimationFrame(animate)
+  }
+  animate()
+}
+
+// === FOOTER EASTER EGG ===
+document.getElementById("footerEgg").addEventListener("click",launchFireworks);
+
+// === CTA FIREWORKS on scroll to bottom ===
+var ctaFired=false;
+var ctaObs=new IntersectionObserver(function(entries){
+  if(entries[0].isIntersecting&&!ctaFired){ctaFired=true;launchFireworks();triggerAchievement("final")}
+},{threshold:.5});
+ctaObs.observe(document.getElementById("final"));
+achMap["tools"]={icon:"\u{1F9F0}",text:"\u89E3\u9501\u5DE5\u5177\u7BB1"};achMap["final"]={icon:"\u{1F389}",text:"\u{1F38A} \u606D\u559C\u901A\u5173\uFF01"};
+
+
+
+// === METRO DRAG SCROLL ===
+(function(){
+  var el=document.getElementById("metroScroll");
+  if(!el)return;
+  var isDown=false,startX,scrollLeft;
+  el.addEventListener("mousedown",function(e){isDown=true;startX=e.pageX-el.offsetLeft;scrollLeft=el.scrollLeft;el.style.cursor="grabbing"});
+  el.addEventListener("mouseleave",function(){isDown=false;el.style.cursor="grab"});
+  el.addEventListener("mouseup",function(){isDown=false;el.style.cursor="grab"});
+  el.addEventListener("mousemove",function(e){if(!isDown)return;e.preventDefault();var x=e.pageX-el.offsetLeft;el.scrollLeft=scrollLeft-(x-startX)});
+  // Auto scroll to middle on load
+  setTimeout(function(){el.scrollLeft=300},500);
+})();
+
+
+// === METRO CLICK CARD ===
+function showMetroCard(color,label,title,details){
+  var overlay=document.getElementById("metroOverlay");
+  document.getElementById("metroCardMonth").innerHTML='<span class="metro-card-line" style="background:'+color+'"></span>'+label+' · '+title;
+  document.getElementById("metroCardBody").innerHTML='<p>'+details+'</p>';
+  overlay.classList.add("show");
+}
+function closeMetroCard(){
+  document.getElementById("metroOverlay").classList.remove("show");
+}
+document.addEventListener("keydown",function(e){if(e.key==="Escape")closeMetroCard()});
+
+</script>
+
+<!-- Metro overlay card -->
+<div class="metro-overlay" id="metroOverlay" onclick="if(event.target===this)closeMetroCard()">
+  <div class="metro-card">
+    <button class="metro-card-close" onclick="closeMetroCard()">&times;</button>
+    <div class="metro-card-month" id="metroCardMonth"></div>
+    <div class="metro-card-body" id="metroCardBody"></div>
+  </div>
+</div>
+</body>
+</html>
