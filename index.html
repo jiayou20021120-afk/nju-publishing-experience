@@ -363,6 +363,19 @@ footer span:hover{color:var(--nju)}
 
 
 .card-label,.card h3,.img-caption,.score-display,.metro-card-body p,.tl-item .tl-text,.flip-back p{text-indent:0!important}
+
+/* === MOOD LIST === */
+.mood-list{display:flex;flex-direction:column;gap:.6rem}
+.mood-item{display:flex;align-items:center;gap:.8rem;font-size:.85rem}
+.mood-month{font-family:"Noto Serif SC",serif;font-weight:600;font-size:.78rem;color:var(--ink);min-width:3.2em;text-align:right;flex-shrink:0}
+.mood-bar{height:6px;border-radius:3px;background:var(--c,#603F98);flex-shrink:0;transition:width .6s ease-out;min-width:20px}
+.mood-text{font-size:.82rem;color:var(--body);line-height:1.5;flex:1}
+@media(max-width:700px){
+  .mood-item{flex-wrap:wrap;gap:.3rem .6rem}
+  .mood-bar{order:3;width:100%!important;height:4px;margin-top:-.2rem}
+  .mood-text{font-size:.78rem;order:2;flex:1}
+  .mood-month{min-width:auto}
+}
 </style>
 </head>
 <body>
@@ -466,13 +479,65 @@ footer span:hover{color:var(--nju)}
     </div>
 
     <!-- MOOD CURVE -->
-    <div class="mood-wrap">
-      <h3>&#x1F4C8; 我的备考心情曲线（真实版）</h3>
-      <div style="position:relative">
-        <svg class="mood-svg" id="moodSvg" viewBox="0 0 700 160"></svg>
-        <div class="mood-tooltip" id="moodTip"></div>
+    <div class="mood-wrap" style="padding:1.5rem">
+      <h3 style="margin-bottom:1.2rem">&#x1F4C8; 我的备考心情曲线（真实版）</h3>
+      <div class="mood-list">
+        <div class="mood-item" style="--c:#8B6DB5"><span class="mood-month">3月</span><span class="mood-bar" style="width:55%"></span><span class="mood-text">谁说考研难？我觉得还行啊（flag立下）</span></div>
+        <div class="mood-item" style="--c:#7B52B5"><span class="mood-month">5月</span><span class="mood-bar" style="width:65%"></span><span class="mood-text">背了十页，牵挂我的B站视频</span></div>
+        <div class="mood-item" style="--c:#D4564E"><span class="mood-month">7月</span><span class="mood-bar" style="width:30%"></span><span class="mood-text">背了忘忘了背，我是金鱼吗？</span></div>
+        <div class="mood-item" style="--c:#D4564E"><span class="mood-month">8月</span><span class="mood-bar" style="width:15%"></span><span class="mood-text">模拟题写的啥啊这是…想回家</span></div>
+        <div class="mood-item" style="--c:#C9A84C"><span class="mood-month">9月</span><span class="mood-bar" style="width:45%"></span><span class="mood-text">被柒柒学姐拉回来了，行吧再试试</span></div>
+        <div class="mood-item" style="--c:#2A8B7A"><span class="mood-month">10月</span><span class="mood-bar" style="width:70%"></span><span class="mood-text">论述突然会写了？？我可以！</span></div>
+        <div class="mood-item" style="--c:#D4564E"><span class="mood-month">11月</span><span class="mood-bar" style="width:25%"></span><span class="mood-text">焦虑到看医生，检查结果：没事就是焦虑</span></div>
+        <div class="mood-item" style="--c:#603F98"><span class="mood-month">12月</span><span class="mood-bar" style="width:50%"></span><span class="mood-text">巧克力化了跟纸粘一起…管他呢一起吃了</span></div>
+        <div class="mood-item" style="--c:#C9A84C"><span class="mood-month">出分！</span><span class="mood-bar" style="width:95%"></span><span class="mood-text">手抖着查的成绩，激动到话都说不利索了</span></div>
       </div>
     </div>
+
+    <!-- 文字版时间线 -->
+    <div class="card" style="margin-top:1.5rem">
+      <span class="card-label purple">&#x1F4C5; 文字版备考规划</span>
+      <h3>四个阶段，照着走就行</h3>
+
+      <div style="margin-top:1rem">
+        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#603F98;margin-bottom:.6rem">&#x1F331; 3-5月 · 打地基</h4>
+        <ul>
+          <li><strong>专业课：</strong>把基础和实务多看几遍，先不背，目标是理解和熟悉。后续背诵会轻松很多。</li>
+          <li><strong>英语：</strong>背单词（每天坚持！）；阅读一刷，要精刷。推荐用黄皮书的四级或六级版本。注意：黄皮书版本特别多，一定先去小红书搜一下各个版本的区别再买，别买错了。</li>
+          <li><strong>政治：</strong>时间充足的话可以看看马原，但这阶段没太大必要。</li>
+        </ul>
+      </div>
+
+      <div style="margin-top:1.2rem">
+        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#8B6DB5;margin-bottom:.6rem">&#x1F525; 5-7月 · 暑假前动员</h4>
+        <ul>
+          <li><strong>专业课：</strong>开始背诵，but only背书上知识，先不想热点和论述，专注把书背进去。</li>
+          <li><strong>英语：</strong>继续背单词；阅读二刷。</li>
+          <li><strong>政治：</strong>无，看看时政就行。</li>
+          <li>&#x26A0;&#xFE0F; <strong>阶段末尾很重要：</strong>回顾过去四个月的准备情况，制定暑假阶段的规划。暑假是我认为最重要的阶段，提前规划好能少走很多弯路。</li>
+        </ul>
+      </div>
+
+      <div style="margin-top:1.2rem">
+        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#C9A84C;margin-bottom:.6rem">&#x1F4AA; 7-9月 · 第二重要的阶段</h4>
+        <ul>
+          <li><strong>专业课：</strong>第三遍背诵时，脑子里要开始想"哪些地方可以结合哪些具体案例"——不仅加深理解，也为论述写作打基础。同时开始错句、文言文、文常的知识点摄入。每天做一道各院校真题练手。</li>
+          <li><strong>英语：</strong>除了阅读外，开始特殊题型训练（完型/新题型）和翻译，根植于真题即可。</li>
+          <li><strong>政治：</strong>可以看徐涛的课，每节跟上就行。个人认为并没有啥用，但是不看心里会慌慌的。</li>
+        </ul>
+      </div>
+
+      <div style="margin-top:1.2rem">
+        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#D4564E;margin-bottom:.6rem">&#x1F680; 10-12月 · 冲刺（摒弃杂念，就是冲）</h4>
+        <ul>
+          <li><strong>专业课：</strong>第四遍 = 热点 + 全篇背诵；第五遍 = 根据学校当年重点（比如今年偏市场/发行方向）+ 热点，有侧重地背。文言文、错句、文常每天选两项进行。<strong>安排2-3次模考</strong>，每次模考后一定要复盘。</li>
+          <li><strong>英语：</strong>除了刷题外，开始总结自己的作文模板。<strong>一定要自己整理！</strong>江苏今年低分的据说都是背的大众模板。简单就行，确保没有语法错误。</li>
+          <li><strong>政治：</strong>刷题——肖8、腿姐、余峰，什么都刷。每天翻20面腿姐背诵手册；腿姐9张纸可以开始背诵，但没必要追求每个字都记住。</li>
+        </ul>
+      </div>
+    </div>
+
+
 
     <!-- 地铁线路图 -->
     <div class="metro-wrap">
@@ -601,48 +666,6 @@ footer span:hover{color:var(--nju)}
       </div>
     </div>
 
-    <!-- 文字版时间线 -->
-    <div class="card" style="margin-top:1.5rem">
-      <span class="card-label purple">&#x1F4C5; 文字版备考规划</span>
-      <h3>四个阶段，照着走就行</h3>
-
-      <div style="margin-top:1rem">
-        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#603F98;margin-bottom:.6rem">&#x1F331; 3-5月 · 打地基</h4>
-        <ul>
-          <li><strong>专业课：</strong>把基础和实务多看几遍，先不背，目标是理解和熟悉。后续背诵会轻松很多。</li>
-          <li><strong>英语：</strong>背单词（每天坚持！）；阅读一刷，要精刷。推荐用黄皮书的四级或六级版本。注意：黄皮书版本特别多，一定先去小红书搜一下各个版本的区别再买，别买错了。</li>
-          <li><strong>政治：</strong>时间充足的话可以看看马原，但这阶段没太大必要。</li>
-        </ul>
-      </div>
-
-      <div style="margin-top:1.2rem">
-        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#8B6DB5;margin-bottom:.6rem">&#x1F525; 5-7月 · 暑假前动员</h4>
-        <ul>
-          <li><strong>专业课：</strong>开始背诵，but only背书上知识，先不想热点和论述，专注把书背进去。</li>
-          <li><strong>英语：</strong>继续背单词；阅读二刷。</li>
-          <li><strong>政治：</strong>无，看看时政就行。</li>
-          <li>&#x26A0;&#xFE0F; <strong>阶段末尾很重要：</strong>回顾过去四个月的准备情况，制定暑假阶段的规划。暑假是我认为最重要的阶段，提前规划好能少走很多弯路。</li>
-        </ul>
-      </div>
-
-      <div style="margin-top:1.2rem">
-        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#C9A84C;margin-bottom:.6rem">&#x1F4AA; 7-9月 · 第二重要的阶段</h4>
-        <ul>
-          <li><strong>专业课：</strong>第三遍背诵时，脑子里要开始想"哪些地方可以结合哪些具体案例"——不仅加深理解，也为论述写作打基础。同时开始错句、文言文、文常的知识点摄入。每天做一道各院校真题练手。</li>
-          <li><strong>英语：</strong>除了阅读外，开始特殊题型训练（完型/新题型）和翻译，根植于真题即可。</li>
-          <li><strong>政治：</strong>可以看徐涛的课，每节跟上就行。个人认为并没有啥用，但是不看心里会慌慌的。</li>
-        </ul>
-      </div>
-
-      <div style="margin-top:1.2rem">
-        <h4 style="font-family:'Noto Serif SC',serif;font-size:.95rem;color:#D4564E;margin-bottom:.6rem">&#x1F680; 10-12月 · 冲刺（摒弃杂念，就是冲）</h4>
-        <ul>
-          <li><strong>专业课：</strong>第四遍 = 热点 + 全篇背诵；第五遍 = 根据学校当年重点（比如今年偏市场/发行方向）+ 热点，有侧重地背。文言文、错句、文常每天选两项进行。<strong>安排2-3次模考</strong>，每次模考后一定要复盘。</li>
-          <li><strong>英语：</strong>除了刷题外，开始总结自己的作文模板。<strong>一定要自己整理！</strong>江苏今年低分的据说都是背的大众模板。简单就行，确保没有语法错误。</li>
-          <li><strong>政治：</strong>刷题——肖8、腿姐、余峰，什么都刷。每天翻20面腿姐背诵手册；腿姐9张纸可以开始背诵，但没必要追求每个字都记住。</li>
-        </ul>
-      </div>
-    </div>
 
   </section>
 
@@ -650,6 +673,16 @@ footer span:hover{color:var(--nju)}
   <section class="section" id="zhuanye">
     <div class="level-badge"><span class="lock">&#x1F512;</span><span class="level-text">LEVEL 2 · 专业课</span></div>
     <h2 class="section-title">专业课：别只闷头背，要学会"编"</h2>
+
+    <div class="card">
+      <span class="card-label purple">&#x1F4D6; 教辅选择</span>
+      <h3>背诵资料怎么选</h3>
+      <p>备考期间我尝试了好几种教辅资料来辅助背诵。教辅的好坏因人而异，关键在于是否适合你自己的学习习惯。有的资料内容丰富但板块太碎，背着容易乱；有的覆盖面不够全，后期用得少。最后陪我走到最后的，是一份框架清晰、留有空白可以自己补充热点的笔记——后期全靠它。</p>
+      <p><strong>建议：</strong>别贪多，选一份适合自己的跟到底就行。框架清晰比内容多更重要，因为后期你要自己往里填热点和案例。</p>
+    </div>
+
+    <div class="quote-box">
+      <p>说实话，南大现在的出题越来越"活"了。不是让你原封不动背课本，而是给你一个话题，让你自己"编"出一篇像样的论述。所以背的时候别太纠结一字不差，关键是你能不能用自己的话把这个知识点讲清楚，再结合一个热点案例撑起来。</p>
     </div>
 
     <div class="card">
@@ -1155,55 +1188,7 @@ function checkQuiz(el,correct){
 achMap["quiz"]={icon:"\u{1F3AE}",text:"\u7B54\u9898\u5C0F\u80FD\u624B"};
 
 // === MOOD CURVE ===
-(function(){
-  var data=[
-    {x:50,y:80,label:"3\u6708\u00B7\u521A\u5F00\u59CB",mood:"\u8C01\u8BF4\u8003\u7814\u96BE\uff1f\u6211\u89C9\u5F97\u8FD8\u884C\u554A\uff08flag\u7ACB\u4E0B\uff09"},
-    {x:120,y:55,label:"5\u6708\u00B7\u80CC\u4E66\u4E2D",mood:"\u5475\uff0C\u80CC\u4E86\u5341\u9875\uff0C\u7275\u6302\u6211\u7684B\u7AD9\u89C6\u9891"},
-    {x:200,y:95,label:"7\u6708\u00B7\u74F6\u9888\u671F",mood:"\u80CC\u4E86\u5FD8\u5FD8\u4E86\u80CC\uff0C\u6211\u662F\u91D1\u9C7C\u5417\uff1f"},
-    {x:280,y:120,label:"8\u6708\u00B7\u5D29\u6E83",mood:"\u6A21\u62DF\u9898\u5199\u7684\u5565\u554A\u8FD9\u662F\u2026\u60F3\u56DE\u5BB6"},
-    {x:360,y:75,label:"9\u6708\u00B7\u88AB\u67D2\u67D2\u5B66\u59D0\u62C9\u56DE\u6765",mood:"\u884C\u5427\u518D\u8BD5\u8BD5\uff0C\u6B7B\u9A6C\u5F53\u6D3B\u9A6C\u533B"},
-    {x:440,y:50,label:"10\u6708\u00B7\u5F00\u7A8D\u4E86",mood:"\u8BBA\u8FF0\u7A81\u7136\u4F1A\u5199\u4E86\uff1f\uff1f\u6211\u53EF\u4EE5\uff01"},
-    {x:520,y:105,label:"11\u6708\u00B7\u7126\u8651\u5230\u770B\u533B\u751F",mood:"\u89C9\u5F97\u81EA\u5DF1\u54EA\u54EA\u90FD\u4E0D\u8212\u670D\uff0c\u68C0\u67E5\u7ED3\u679C\uff1a\u6CA1\u4E8B\uff0c\u5C31\u662F\u7126\u8651"},
-    {x:600,y:60,label:"12\u6708\u00B7\u6B7B\u78E2\u5230\u5E95",mood:"\u7BA1\u4ED6\u5462\uff0C\u5199\u5B8C\u62C9\u5012\u5C31\u8D62\u4E86"},
-    {x:670,y:15,label:"\u51FA\u5206\uff01",mood:"\u624B\u6296\u7740\u67E5\u7684\u6210\u7EE9\uff0c\u6FC0\u52A8\u5230\u8BDD\u90FD\u8BF4\u4E0D\u5229\u7D22\u4E86"}
-  ];
-  var svg=document.getElementById("moodSvg");
-  var tip=document.getElementById("moodTip");
-  // Draw path
-  var pathD="M";
-  data.forEach(function(d,i){
-    if(i===0)pathD+=d.x+","+d.y;
-    else pathD+=" C"+(data[i-1].x+50)+","+data[i-1].y+" "+(d.x-50)+","+d.y+" "+d.x+","+d.y
-  });
-  var path=document.createElementNS("http://www.w3.org/2000/svg","path");
-  path.setAttribute("d",pathD);path.setAttribute("fill","none");path.setAttribute("stroke","url(#moodGrad)");path.setAttribute("stroke-width","3");path.setAttribute("stroke-linecap","round");
-  // Gradient
-  var defs=document.createElementNS("http://www.w3.org/2000/svg","defs");
-  var grad=document.createElementNS("http://www.w3.org/2000/svg","linearGradient");
-  grad.id="moodGrad";grad.setAttribute("x1","0%");grad.setAttribute("x2","100%");
-  var s1=document.createElementNS("http://www.w3.org/2000/svg","stop");s1.setAttribute("offset","0%");s1.setAttribute("stop-color","#8B6DB5");
-  var s2=document.createElementNS("http://www.w3.org/2000/svg","stop");s2.setAttribute("offset","100%");s2.setAttribute("stop-color","#C9A84C");
-  grad.appendChild(s1);grad.appendChild(s2);defs.appendChild(grad);svg.appendChild(defs);svg.appendChild(path);
-  // Dots
-  data.forEach(function(d){
-    var circle=document.createElementNS("http://www.w3.org/2000/svg","circle");
-    circle.setAttribute("cx",d.x);circle.setAttribute("cy",d.y);circle.setAttribute("r","5");circle.setAttribute("fill","#603F98");circle.setAttribute("class","mood-dot");circle.setAttribute("stroke","#fff");circle.setAttribute("stroke-width","2");
-    circle.addEventListener("mouseenter",function(e){
-      tip.innerHTML="<strong>"+d.label+"</strong><br>"+d.mood;
-      tip.style.opacity="1";
-      var rect=svg.getBoundingClientRect();
-      tip.style.left=(rect.left+d.x*rect.width/700-tip.offsetWidth/2)+"px";
-      tip.style.top=(rect.top+d.y*rect.height/160-40)+"px"
-    });
-    circle.addEventListener("mouseleave",function(){tip.style.opacity="0"});
-    svg.appendChild(circle)
-  });
-  // Labels for first and last
-  var startLabel=document.createElementNS("http://www.w3.org/2000/svg","text");
-  startLabel.setAttribute("x",data[0].x);startLabel.setAttribute("y",data[0].y+25);startLabel.setAttribute("text-anchor","middle");startLabel.setAttribute("fill","#8A8198");startLabel.setAttribute("font-size","11");startLabel.textContent="\u5F00\u59CB";svg.appendChild(startLabel);
-  var endLabel=document.createElementNS("http://www.w3.org/2000/svg","text");
-  endLabel.setAttribute("x",data[data.length-1].x);endLabel.setAttribute("y",data[data.length-1].y+25);endLabel.setAttribute("text-anchor","middle");endLabel.setAttribute("fill","#C9A84C");endLabel.setAttribute("font-size","11");endLabel.setAttribute("font-weight","700");endLabel.textContent="\u4E0A\u5CB8\uFF01";svg.appendChild(endLabel)
-})();
+
 
 // === CARD TILT ===
 document.querySelectorAll(".card").forEach(function(card){
