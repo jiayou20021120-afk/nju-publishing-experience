@@ -1003,9 +1003,12 @@ footer span:hover{color:var(--nju)}
   <h2>写了这么多，其实就一句话</h2>
   <p>知道我收到上岸消息的时候在干嘛吗？在实习。说来好笑，那一刻居然没有特别兴奋——真正最激动的是初试成绩出来的那天，激动到手抖。</p>
   <p>所以别想太多，先开始。开始了就成功一半了。剩下的一半靠坚持。我这种背书开着守护解放西的人都考上了，你肯定也行。</p>
+  <div style="margin-top:2.5rem;position:relative">
+    <button id="fireworkBtn" onclick="launchFireworks();triggerAchievement('final');this.textContent='\u1F389 已放烟花！再点一次？'" style="background:none;border:2px solid rgba(201,168,76,.5);color:#C9A84C;font-family:'Noto Serif SC',serif;font-size:.95rem;padding:.7rem 2rem;border-radius:50px;cursor:pointer;letter-spacing:.1em;transition:all .3s">&#x1F386; 读完了？点这里放烟花庆祝</button>
+  </div>
 </section>
 
-<footer><span id="footerEgg">南京大学出版专硕 · 上岸经验分享 · 点我放烟花 &#x1F389;</span></footer>
+<footer>南京大学出版专硕 · 上岸经验分享 · 祝你成功</footer>
 
 <script>
 
@@ -1222,14 +1225,10 @@ function launchFireworks(){
 }
 
 // === FOOTER EASTER EGG ===
-document.getElementById("footerEgg").addEventListener("click",launchFireworks);
+// Footer fireworks removed, now via button
 
 // === CTA FIREWORKS on scroll to bottom ===
-var ctaFired=false;
-var ctaObs=new IntersectionObserver(function(entries){
-  if(entries[0].isIntersecting&&!ctaFired){ctaFired=true;launchFireworks();triggerAchievement("final")}
-},{threshold:.5});
-ctaObs.observe(document.getElementById("final"));
+// Fireworks: manual only via button
 achMap["tools"]={icon:"\u{1F9F0}",text:"\u89E3\u9501\u5DE5\u5177\u7BB1"};achMap["final"]={icon:"\u{1F389}",text:"\u{1F38A} \u606D\u559C\u901A\u5173\uFF01"};
 
 
